@@ -1,0 +1,25 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./server/www",
+    "dev": "PORT=8730 node ./server/www",
+    "clean": "rimraf ./public",
+    "build": "rimraf ./public && cd ../ui && npm install && npm run build && shx cp -r build ../api/public",
+    "copyui": "cd ../ui && shx cp -r build ../api/public"   
+  },
+  "dependencies": {
+    "@azure/ai-text-analytics": "^5.1.0",
+    "axios": "^1.4.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.3",
+    "express": "~4.16.1",
+    "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.0",
+    "shx": "^0.3.4"
+  }
+}
