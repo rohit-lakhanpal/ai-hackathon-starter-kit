@@ -18,6 +18,11 @@ const config = {
             logoOptional: process.env.APP_LOGO_OPTIONAL,
             faviconOptional: process.env.APP_FAVICON_OPTIONAL,
         },
+        language: {
+            key: process.env.LANGUAGE_KEY,
+            region: process.env.LANGUAGE_REGION,
+            endpointUrl: process.env.LANGUAGE_ENDPOINT_URL
+        },
         speech: {
             key: process.env.SPEECH_KEY,
             region: process.env.SPEECH_REGION,
@@ -29,6 +34,7 @@ const config = {
             let errors = [];
             
             config.validators.validateApp().forEach(error => errors.push(error));
+            config.validators.validateLanguage().forEach(error => errors.push(error));
             config.validators.validateSpeech().forEach(error => errors.push(error));
 
             if (errors.length > 0) {
@@ -61,6 +67,22 @@ const config = {
                 errors.push(errorGenerator('App repository', 'APP_REPOSITORY_OPTIONAL', 'https://github.com/[USER]/[REPOSITORY]'));
             }
 
+            return errors;
+        },
+        validateLanguage: () => {
+            let errors = [];
+    
+            // Check if language config values are set correctly
+            if (!config.values.language.key || config.values.language.key.length !== 32) {            
+                errors.push(errorGenerator(`Language key`, `LANGUAGE_KEY`));
+            }
+            if (!config.values.language.region || config.values.language.region.length === 0) {            
+                errors.push(errorGenerator(`Language region`, `LANGUAGE_REGION`));
+            }
+            if (!config.values.language.endpointUrl || config.values.language.endpointUrl.length === 0) {            
+                errors.push(errorGenerator(`Language endpoint URL`, `LANGUAGE_ENDPOINT_URL`));
+            }
+    
             return errors;
         },
         validateSpeech: () => {

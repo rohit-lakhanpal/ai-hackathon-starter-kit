@@ -21,7 +21,13 @@ app.use('/', require('./routes/index'));
 var api = '/api';
 app.use(`${api}/status`, require('./routes/status/index'));
 app.use(`${api}/info`, require('./routes/info/index'));
+app.use(`${api}/language/analyse-sentiment`, require('./routes/language/analyse-sentiment'));
+app.use(`${api}/language/extract-key-phrases`, require('./routes/language/extract-key-phrases'));
+app.use(`${api}/language/recognise-entities`, require('./routes/language/recognise-entities'));
+app.use(`${api}/language/recognise-healthcare-entities`, require('./routes/language/recognise-healthcare-entities'));
+app.use(`${api}/language/recognise-pii`, require('./routes/language/recognise-pii'));
 app.use(`${api}/speech/token`, require('./routes/speech/token'));
+
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
