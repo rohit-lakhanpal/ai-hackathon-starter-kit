@@ -11,7 +11,7 @@ interface Route {
     title: string,
     path: string,
     enabled: boolean,
-    component: FC<{}>,
+    component: FC<any>,
     exact?: boolean
 }
 

@@ -1,6 +1,7 @@
 import React, {ReactElement, FC} from "react";
 import {Box, Container, Paper, Typography} from "@mui/material";
 import { styled } from '@mui/material/styles';
+import { SharedState } from "../state/SharedState";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -8,9 +9,13 @@ const Item = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(1),
     textAlign: 'left',
     color: theme.palette.text.secondary,
-  }));
+}));
 
-const About: FC<any> = (): ReactElement => {
+interface AboutProps {
+    sharedState: SharedState;
+}
+
+const About: FC<AboutProps> = ({sharedState}): ReactElement => {
     return (
         <Box sx={{
             flexGrow: 1,
@@ -33,6 +38,9 @@ const About: FC<any> = (): ReactElement => {
                 <Typography variant="overline">Overline!</Typography>                
                 <Typography variant="button">Button!</Typography>
                 <Item>Something!</Item>
+                <Typography variant="body2">
+                    {sharedState.transcript}
+                </Typography>
             </Container>
         </Box>
     );
