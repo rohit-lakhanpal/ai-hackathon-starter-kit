@@ -17,6 +17,11 @@ const config = {
             repositoryOptional: process.env.APP_REPOSITORY_OPTIONAL,
             logoOptional: process.env.APP_LOGO_OPTIONAL,
             faviconOptional: process.env.APP_FAVICON_OPTIONAL,
+        },
+        speech: {
+            key: process.env.SPEECH_KEY,
+            region: process.env.SPEECH_REGION,
+            endpointUrlOptional: process.env.SPEECH_ENDPOINT_URL_OPTIONAL // For custom endpoints. (optional)
         }
     },
     validators: {
@@ -24,6 +29,7 @@ const config = {
             let errors = [];
             
             config.validators.validateApp().forEach(error => errors.push(error));
+            config.validators.validateSpeech().forEach(error => errors.push(error));
 
             if (errors.length > 0) {
                 throw new Error(`The following environment variables were not set: \n- ${errors.join("\n- ")}`);
@@ -57,6 +63,28 @@ const config = {
 
             return errors;
         },
+        validateSpeech: () => {
+            let errors = [];
+    
+            // Check if speech config values are set correctly
+            if (!config.values.speech.key || config.values.speech.key.length !== 32) {
+                errors.push(errorGenerator(`Speech key`, `SPEECH_KEY`));
+            }
+            if (!config.values.speech.region || config.values.speech.region.length === 0) {            
+                errors.push(errorGenerator(`Speech region`, `SPEECH_REGION`));
+            }
+    
+            // Speech endpoint URL is optional. 
+            // If its set, check is a valid url in the following format:
+            // https://southcentralus.api.cognitive.microsoft.com/sts/v1.0/issuetoken
+            if (config.values.speech.endpointUrlOptional && config.values.speech.endpointUrlOptional.length > 0) {
+                let url = config.values.speech.endpointUrlOptional;
+                if (url.indexOf("https://") !== 0 || url.indexOf("sts/v1.0/issuetoken") === -1) {                
+                    errors.push(errorGenerator(`Speech endpoint URL`, `SPEECH_ENDPOINT_URL_OPTIONAL`));
+                }
+            }
+            return errors;
+        }
     }    
 };
 

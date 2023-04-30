@@ -7,7 +7,7 @@
     "dev": "PORT=8730 node ./server/www",
     "clean": "rimraf ./public",
     "build": "rimraf ./public && cd ../ui && npm install && npm run build && shx cp -r build ../api/public",
-    "copyui": "cd ../ui && shx cp -r build ../api/public"   
+    "copyui": "cd ../ui && shx cp -r build ../api/public"
   },
   "dependencies": {
     "@azure/ai-text-analytics": "^5.1.0",
@@ -16,7 +16,9 @@
     "debug": "~2.6.9",
     "dotenv": "^16.0.3",
     "express": "~4.16.1",
-    "morgan": "~1.9.1"
+    "langchain": "^0.0.66",
+    "morgan": "~1.9.1",
+    "openai": "^3.2.1"
   },
   "devDependencies": {
     "rimraf": "^5.0.0",

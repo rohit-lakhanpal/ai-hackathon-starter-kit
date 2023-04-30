@@ -21,6 +21,7 @@ app.use('/', require('./routes/index'));
 var api = '/api';
 app.use(`${api}/status`, require('./routes/status/index'));
 app.use(`${api}/info`, require('./routes/info/index'));
+app.use(`${api}/speech/token`, require('./routes/speech/token'));
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
