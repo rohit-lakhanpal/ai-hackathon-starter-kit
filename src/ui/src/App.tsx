@@ -11,8 +11,12 @@ import { SharedState } from "./state/SharedState";
 
 function App() {  
   const [transcript, setTranscript] = useState<string>("");
-  const [errors, setErrors] = useState<any>([]);
-  const [warnings, setWarnings] = useState<any>([]);
+  const [speech, setSpeech] = useState<string>("");   
+  const [analysedText, setAnalysedText] = useState<string>("");
+  const [analysisType, setAnalysisType] = useState<string>("");
+  const [errors, setErrors] = useState<any[]>([]);
+  const [warnings, setWarnings] = useState<any[]>([]);
+  const [info, setInfo] = useState<any[]>([]);
   const binErrors = (idx: number) => {
     // remove the warning at idx
     setErrors((prev:any) => {
@@ -28,17 +32,35 @@ function App() {
             return i !== idx;
         })
     });
-}  
+  };
+  const binInfo = (idx: number) => {
+    // remove the warning at idx
+    setInfo((prev:any) => {
+        return prev.filter((e:any, i:number) => {
+            return i !== idx;
+        })
+    });
+  };
+  
 
   const sharedState: SharedState = {
     transcript,
     setTranscript,
+    speech,
+    setSpeech,
+    analysedText,
+    setAnalysedText,
+    analysisType,
+    setAnalysisType,
     errors,
     setErrors,
     binErrors,
     warnings,
     setWarnings,
-    binWarnings
+    binWarnings,
+    info,
+    setInfo,
+    binInfo,
   };
 
   return (

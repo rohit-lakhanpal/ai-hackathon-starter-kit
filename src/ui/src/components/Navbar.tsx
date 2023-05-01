@@ -18,40 +18,73 @@ import logo from "../assets/logo.png";
 // Create a functional component called AppLogo
 const AppLogo: FC = (): ReactElement => {
   const [about, setAbout] = useState<any>({});
+  const [pageTitle, setPageTitle] = useState<string>("");
 
   useEffect(() => {
     (async () => {                          
-        try{            
-            var about = await infoService.getAppInfoAsync();
-            if(about)
-              setAbout(about);
-            
-            if(about.faviconOptional)
+        try{
+            const about = await infoService.getAppInfoAsync();
+            if(about?.faviconOptional)
               document.querySelector("link[rel~='icon']")?.setAttribute("href", about.faviconOptional);
 
-            document.title = about.name;
+            // Get page title from the route
+            var route = routes.find((r) => r.path === window.location.pathname);
+            if(route)
+              setPageTitle(route.title);
+            else
+              setPageTitle("Home");
         }
         catch {
             setAbout({});
         }
     })();
   }, []);
-  return (<Box
-    component="img"
-    sx={{
-      padding: about?.logoOptional?.endsWith(".svg") ? "0.5rem" : "0.1rem",                           
-      overflow: "auto",
-      maxHeight: {
-        xs: about?.logoOptional?.endsWith(".svg") ? "3.2rem" : "5rem",
-        sm: about?.logoOptional?.endsWith(".svg") ? "3.4rem" : "5rem",
-        md: about?.logoOptional?.endsWith(".svg") ? "3.6rem" : "5rem",
-        lg: about?.logoOptional?.endsWith(".svg") ? "3.8rem" : "5rem",
-        xl: about?.logoOptional?.endsWith(".svg") ? "4rem" : "5rem",
-      }
-    }}
-    alt={about?.name}
-    src={about?.logoOptional || logo}
-  />)
+
+  useEffect(() => {
+    // Get page title from the route
+    var route = routes.find((r) => r.path === window.location.pathname);
+    if(route)
+      setPageTitle(route.title);
+    else
+      setPageTitle("Home");
+  }, [window.location.pathname]);
+
+
+
+  return (<>
+    <Box
+      component="img"
+      sx={{
+        padding: about?.logoOptional?.endsWith(".svg") ? "0.5rem" : "0.1rem",                           
+        overflow: "auto",
+        maxHeight: {
+          xs: about?.logoOptional?.endsWith(".svg") ? "3.2rem" : "3.2rem",
+          sm: about?.logoOptional?.endsWith(".svg") ? "3.4rem" : "3.4rem",
+          md: about?.logoOptional?.endsWith(".svg") ? "3.6rem" : "5rem",
+          lg: about?.logoOptional?.endsWith(".svg") ? "3.8rem" : "5rem",
+          xl: about?.logoOptional?.endsWith(".svg") ? "4rem" : "5rem",
+        },
+        // Hide the logo when the screen is extra small
+        display: { xs: "none", sm: "block", md: "block" },
+      }}
+      alt={about?.name}
+      src={about?.logoOptional || logo}
+    />
+    {/* When the screen is extra small, Display the page header */}
+    <Typography
+      variant="h3"
+      noWrap
+      component="div"
+      sx={{
+        flexGrow: 1,
+        display: { xs: "block", sm: "none", md: "none" },
+        margin: "0.25rem",
+      }}
+    >
+      {pageTitle}
+    </Typography>
+
+  </>)
 };
 
 const Navbar: FC = (): ReactElement => {
