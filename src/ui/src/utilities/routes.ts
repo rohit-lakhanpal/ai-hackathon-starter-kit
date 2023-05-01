@@ -52,6 +52,13 @@ export const routes: Array<Route> = [
         enabled: true,
         component: Analyse,
         exact: true
+    },    
+    {
+        key: 'complete-route',
+        title: 'Complete',
+        path: '/complete',
+        enabled: true,
+        component: Complete
     },
     {
         key: 'chat-route',
@@ -59,13 +66,6 @@ export const routes: Array<Route> = [
         path: '/chat',
         enabled: true,
         component: Chat        
-    },
-    {
-        key: 'complete-route',
-        title: 'Complete',
-        path: '/complete',
-        enabled: true,
-        component: Complete
     },
     {
         key: 'about-route',

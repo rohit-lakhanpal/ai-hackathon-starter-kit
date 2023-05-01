@@ -158,20 +158,13 @@
 
 // export default Chat;
 
-import React, {ReactElement, FC} from "react";
-import {Box, Container, Paper, Typography} from "@mui/material";
-import { styled } from '@mui/material/styles';
+import {ReactElement, FC} from "react";
+import {Box, Container} from "@mui/material";
 import PageHeader  from "../components/PageHeader";
 import { SharedState } from "../state/SharedState";
 
 
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'left',
-    color: theme.palette.text.secondary,
-}));
+
 
 interface ChatProps {
     sharedState: SharedState;

@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect, useState } from "react";
+import { FC, ReactElement, useEffect, useState } from "react";
 import {  
   Box,
   Link,
@@ -47,7 +47,7 @@ const AppLogo: FC = (): ReactElement => {
       setPageTitle(route.title);
     else
       setPageTitle("Home");
-  }, [window.location.pathname]);
+  }, []);
 
 
 

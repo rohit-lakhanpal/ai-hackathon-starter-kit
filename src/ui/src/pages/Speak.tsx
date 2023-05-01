@@ -1,4 +1,4 @@
-import React, {ReactElement, FC, useState, useEffect} from "react";
+import {ReactElement, FC, useState, useEffect} from "react";
 import {Alert, Box, Button, colors, Container, Grid, Input, Typography} from "@mui/material";
 import { SharedState } from "../state/SharedState";
 import CampaignIcon from '@mui/icons-material/Campaign';
@@ -79,9 +79,10 @@ const Speak: FC<SpeakProps> = ({ sharedState }): ReactElement => {
             });
         }    
         const onSynthesisCompleted = () => {        
-            // setTimeout(() => {                
-            //     setIsSpeaking(false);
-            // }, (lastSpokenWordOffset));
+            setTimeout(() => {                
+                setIsSpeaking(false);
+                console.log("synthesis completed.");
+            }, (lastSpokenWordOffset));
         }
         
         try {
@@ -99,6 +100,7 @@ const Speak: FC<SpeakProps> = ({ sharedState }): ReactElement => {
     useEffect(() => {
         sharedState.setSpeech(sharedState.transcript);
         setupSynthesiser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
         
     return (

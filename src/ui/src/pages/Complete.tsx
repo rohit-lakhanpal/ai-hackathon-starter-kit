@@ -1,12 +1,12 @@
 import React, {ReactElement, FC, useState, useEffect} from "react";
-import {Alert, Box, Button, Container, Drawer, Grid, Input, Paper, Typography, colors} from "@mui/material";
+import {Alert, Box, Button, Container, Drawer, Grid, Input, Typography, colors} from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ClearIcon from '@mui/icons-material/Clear';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import PageHeader  from "../components/PageHeader";
 import { SharedState } from "../state/SharedState";
-import {oaiService, CompletionMessage, CompletionResponse } from "../services/oaiService";
+import {oaiService, CompletionResponse } from "../services/oaiService";
 
 
 import List from '@mui/material/List';
@@ -34,15 +34,24 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
     const [interactions, setInteractions] = useState<Interation[]>([]);
     const [selectedCompletion, setSelectedCompletion] = useState<CompletionResponse | null>(null);
 
-    const beingCompletions = async () => {
+    const beingCompletions = async () => {        
         setProcessing(true);
-        var complete = await oaiService.getCompletionAsync(content);
-        setSelectedCompletion(complete);
-        setInteractions((prev) => [...prev, {
-            response: complete,
-            query: content,
-        }]);
-        setProcessing(false);
+        try {
+            var complete = await oaiService.getCompletionAsync(content);
+            setSelectedCompletion(complete);
+            setInteractions((prev) => [...prev, {
+                response: complete,
+                query: content,
+            }]);
+        } catch (error: any) {
+            sharedState.setErrors((prev:any) => {
+                return [...prev, error.message];
+            });
+        } finally {
+            setProcessing(false);
+        }
+       
+        
     };
 
     const resetCompletions = async () => {
@@ -59,7 +68,14 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
 
     useEffect(() => {
         (async ()=>{
-            setOpenAiInfo(await oaiService.getInfoAsync());
+            try {
+                var info = await oaiService.getInfoAsync();
+                setOpenAiInfo(info);
+            } catch (error: any) {
+                sharedState.setErrors((prev:any) => {
+                    return [...prev, error.message];
+                });
+            }
         })()
     }, []);
 

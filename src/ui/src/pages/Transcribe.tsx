@@ -1,5 +1,5 @@
 import React, {ReactElement, FC, useState, useEffect} from "react";
-import {Box, Button, Container, Grid, Input, Typography, colors} from "@mui/material";
+import {Alert, Box, Button, Container, Grid, Typography, colors} from "@mui/material";
 import { SharedState } from "../state/SharedState";
 import MicIcon from '@mui/icons-material/Mic';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
@@ -70,13 +70,24 @@ const Transcribe: FC<TranscribeProps> = ({ sharedState }): ReactElement => {
             console.log("Stop recognition.");
             recogniser.stopContinuousRecognitionAsync();
         };    
-        let r = await speechService
+
+        try {
+            let r = await speechService
             .initialiseRecogniserAsync(onRecognised, onCancelled, onSessionStarted, onSessionStopped);
-        setRecogniser(r);
+            setRecogniser(r);
+        } catch (error: any) {
+            sharedState.setErrors((prev:any) => {
+                return [...prev, error.message];
+            });
+        }
+        
     }
 
     useEffect(() => {
-        setupRecogniser();
+        (async()=>{
+            await setupRecogniser();
+        })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -88,6 +99,13 @@ const Transcribe: FC<TranscribeProps> = ({ sharedState }): ReactElement => {
         }}>
            <Container maxWidth="xl">
                 <PageHeader title="Transcribe" subtitle="Audio Transcription in Real Time" />
+                <Box hidden={sharedState.errors.length < 1}>
+                    {sharedState.errors.map((e: any, i: number) => {
+                        return <Alert key={i} severity="error" onClose={() => sharedState.binErrors(i)}>
+                            {e}
+                        </Alert>
+                    })}
+                </Box>
                 <Grid container spacing={2} style={{marginTop:"1rem"}}>
                     <Grid item>
                         <Button onClick={beginTranscription}

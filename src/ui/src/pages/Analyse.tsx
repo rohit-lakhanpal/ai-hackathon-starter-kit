@@ -1,5 +1,5 @@
 import React, {ReactElement, FC, useState, useEffect} from "react";
-import {Alert,Box, Button, colors, Container, FormControl, Grid, Input, InputLabel, MenuItem, Select, TextField, Typography} from "@mui/material";
+import {Alert,Box, Button, colors, Container, FormControl, Grid, Input, InputLabel, MenuItem, Select, Typography} from "@mui/material";
 import { SharedState } from "../state/SharedState";
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -50,7 +50,7 @@ const Analyse: FC<AnalyseProps> = ({ sharedState }): ReactElement => {
 
     useEffect(() => {
         setInputText(sharedState.transcript);
-    }, []);
+    }, [sharedState.transcript]);
         
 
 
