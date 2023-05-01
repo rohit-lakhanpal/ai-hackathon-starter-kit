@@ -27,6 +27,8 @@ app.use(`${api}/language/recognise-entities`, require('./routes/language/recogni
 app.use(`${api}/language/recognise-healthcare-entities`, require('./routes/language/recognise-healthcare-entities'));
 app.use(`${api}/language/recognise-pii`, require('./routes/language/recognise-pii'));
 app.use(`${api}/speech/token`, require('./routes/speech/token'));
+app.use(`${api}/openai/completions`, require('./routes/openai/completions'));
+app.use(`${api}/openai/chat/completions`, require('./routes/openai/chat/completions'));
 
 
 // catch 404 and forward to error handler
