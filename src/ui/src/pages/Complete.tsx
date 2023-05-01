@@ -38,6 +38,14 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
         setProcessing(true);
         try {
             var complete = await oaiService.getCompletionAsync(content);
+            /**
+             * ***************************************
+             * NOTE TO DEVELOPER: YOUR_MAGIC_GOES_HERE
+             * ***************************************
+             * This is where you would do something with the completion generated with OpenAI.
+             * Look at complete.data.choices[0].text for the completion.
+             */   
+            
             setSelectedCompletion(complete);
             setInteractions((prev) => [...prev, {
                 response: complete,
@@ -71,6 +79,8 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
             try {
                 var info = await oaiService.getInfoAsync();
                 setOpenAiInfo(info);
+                // Initialise th content with the transcript
+                setContent(sharedState.transcript);
             } catch (error: any) {
                 sharedState.setErrors((prev:any) => {
                     return [...prev, error.message];
