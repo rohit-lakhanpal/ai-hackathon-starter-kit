@@ -76,8 +76,8 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                     return [...prev, error.message];
                 });
             }
-        })()
-    }, []);
+        })()    
+    }, [sharedState]);
 
     return (
         <Box sx={{
