@@ -19,7 +19,7 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
           padding: '2rem',
         }}>            
            <Container maxWidth="xl">
-              <PageHeader title="Generate" subtitle="Generate functionality." />
+              <PageHeader title="Complete" subtitle="Generate completions from OpenAI." />
             </Container>
         </Box>
     );
