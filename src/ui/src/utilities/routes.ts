@@ -3,6 +3,7 @@ import Transcribe from "../pages/Transcribe";
 import Analyse from "../pages/Analyse";
 import Speak from "../pages/Speak";
 import About from "../pages/About";
+import Complete from "../pages/Complete";
 import Chat from "../pages/Chat";
 import Error from "../pages/Error";
 
@@ -58,6 +59,13 @@ export const routes: Array<Route> = [
         path: '/chat',
         enabled: true,
         component: Chat        
+    },
+    {
+        key: 'complete-route',
+        title: 'Complete',
+        path: '/complete',
+        enabled: true,
+        component: Complete
     },
     {
         key: 'about-route',

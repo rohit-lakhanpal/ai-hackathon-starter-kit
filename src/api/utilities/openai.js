@@ -140,6 +140,16 @@ const openaiUtilities = {
 //     },
     getCompletions,
     getChatCompletions,
+    getInfo: async () => {
+        return {
+            type: config.values.openAI.type,
+            settings: {
+                text: getParamsByType('text'),
+                chat: getParamsByType('chat')
+            }
+            
+        }
+    }
 };
 
 module.exports = openaiUtilities

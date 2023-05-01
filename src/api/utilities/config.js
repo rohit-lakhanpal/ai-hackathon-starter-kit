@@ -14,7 +14,7 @@ const config = {
         app: {
             name: process.env.APP_NAME,
             description: process.env.APP_DESCRIPTION,
-            repositoryOptional: process.env.APP_REPOSITORY_OPTIONAL,
+            repositoryOptional: process.env.APP_REPOSITORY_OPTIONAL || `https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit`,
             logoOptional: process.env.APP_LOGO_OPTIONAL,
             faviconOptional: process.env.APP_FAVICON_OPTIONAL,
         },

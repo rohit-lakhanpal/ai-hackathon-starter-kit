@@ -29,6 +29,7 @@ app.use(`${api}/language/recognise-pii`, require('./routes/language/recognise-pi
 app.use(`${api}/speech/token`, require('./routes/speech/token'));
 app.use(`${api}/openai/completions`, require('./routes/openai/completions'));
 app.use(`${api}/openai/chat/completions`, require('./routes/openai/chat/completions'));
+app.use(`${api}/openai/models`, require('./routes/openai/models'));
 
 
 // catch 404 and forward to error handler
