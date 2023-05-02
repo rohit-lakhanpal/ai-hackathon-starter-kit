@@ -53,7 +53,7 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                 query: content,
             }
             setSelectedInteraction(newInteraction);
-            setInteractions((prev) => [...prev, newInteraction]);
+            setInteractions((prev) => [newInteraction, ...prev]);
         } catch (error: any) {
             sharedState.setErrors((prev:any) => {
                 return [...prev, error.message];
@@ -156,7 +156,7 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                             value={content} 
                             fullWidth={true}             
                             multiline={true}                     
-                            minRows={6}  
+                            minRows={4}  
                             maxRows={12} 
                             style={{                                
                                 fontSize:"1rem",
@@ -175,8 +175,8 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                         <Typography variant="h6">
                             Generated completions:
                         </Typography>
-                        <List sx={{ width: '100%', cursor: "pointer" }}>
-                            {interactions.reverse().map((i: Interation, index: number) => {
+                        <List sx={{ width: '100%', cursor: "pointer" }} >
+                            {interactions.map((i: Interation, index: number) => {
                                 return (<React.Fragment key={index}>
                                     <ListItem alignItems="flex-start">
                                         <ListItemAvatar>
