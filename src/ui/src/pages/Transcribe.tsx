@@ -12,35 +12,15 @@ interface TranscribeProps {
     sharedState: SharedState;
 }
 
-
 const Transcribe: FC<TranscribeProps> = ({ sharedState }): ReactElement => {
     const [localTranscript, setLocalTranscript] = useState<any[]>([]);
     const [isTranscribing, setIsTranscribing] = useState<boolean>(false);
     const [recogniser, setRecogniser] = useState<any>(null);
 
-    const beginTranscription = async () => {
-        if(recogniser !== null)
-        {
-            await recogniser.startContinuousRecognitionAsync();
-            setIsTranscribing(true);
-        } else {
-            console.log("Recogniser is null");
-        }
-    };
-    const stopTranscription = async () => {
-        if(recogniser !== null)
-        {
-            await recogniser.startContinuousRecognitionAsync();            
-        }
-
-        setIsTranscribing(false);
-    };
-
     const setupRecogniser = async () => {
         const onRecognised = (s: any, e: { result: { reason: speechsdk.ResultReason; text: React.SetStateAction<string>; }; }) => {
             if (e.result.reason === speechsdk.ResultReason.RecognizedSpeech) {                
-                console.log(`RECOGNIZED: Text=${e.result.text}`);
-                sharedState.setTranscript(`${sharedState.transcript} ${e.result.text}`)
+                console.log(`RECOGNIZED: Text=${e.result.text}`);                
                 setLocalTranscript((prevTranscript: string[]) => {
                     let t = [...prevTranscript, e.result.text]; 
 
@@ -49,10 +29,9 @@ const Transcribe: FC<TranscribeProps> = ({ sharedState }): ReactElement => {
                      * NOTE TO DEVELOPER: YOUR_MAGIC_GOES_HERE
                      * ***************************************
                      * This is where you would send the transcript to a server for processing.
-                     */
+                     */                                     
 
-                    let transcriptAsString = t.join("\n");
-                    sharedState.setTranscript(transcriptAsString);
+
                     return t;
                 });
             } else if (e.result.reason === speechsdk.ResultReason.NoMatch) {
@@ -83,6 +62,44 @@ const Transcribe: FC<TranscribeProps> = ({ sharedState }): ReactElement => {
         
     }
 
+    const beginTranscription = async () => {
+        if(recogniser !== null)
+        {
+            try {
+                sharedState.setWarnings((prev:any) => {
+                    var warning = 'You MUST click the Stop Transcription button before navigating away. Thanks.';
+                    return [...prev, warning];
+                });
+            } catch (error) {
+            }
+
+            await recogniser.startContinuousRecognitionAsync();
+            setIsTranscribing(true);
+        } else {
+            console.log("Recogniser is null");
+        }
+    };
+
+    const stopTranscription = async () => {
+        if(recogniser !== null)
+        {
+            try {
+                // RL: This is not working as expected. It is not stopping the recogniser.
+                //     Use close() instead.
+                //await recogniser.stopContinuousRecognitionAsync();  
+                setIsTranscribing(false);
+                await recogniser.close();                                          
+            } catch (error) {
+                console.log(error);
+            } finally{                
+                await setupRecogniser();  
+            }
+                
+        }
+
+        setIsTranscribing(false);
+    };
+
     useEffect(() => {
         (async()=>{
             await setupRecogniser();
@@ -106,6 +123,13 @@ const Transcribe: FC<TranscribeProps> = ({ sharedState }): ReactElement => {
                         </Alert>
                     })}
                 </Box>
+                <Box hidden={sharedState.warnings.length < 1}>
+                    {sharedState.warnings.map((e: any, i: number) => {
+                        return <Alert key={i} severity="warning" onClose={() => sharedState.binWarnings(i)}>
+                            {e}
+                        </Alert>
+                    })}
+                </Box>
                 <Grid container spacing={2} style={{marginTop:"1rem"}}>
                     <Grid item>
                         <Button onClick={beginTranscription}
@@ -117,7 +141,7 @@ const Transcribe: FC<TranscribeProps> = ({ sharedState }): ReactElement => {
                     </Grid>
                     <Grid item>
                         <Button onClick={stopTranscription}
-                            disabled={!isTranscribing}                            
+                            // disabled={!isTranscribing}                            
                             variant="contained"
                             color="error"
                             startIcon={<RecordVoiceOverIcon />}>
@@ -132,9 +156,22 @@ const Transcribe: FC<TranscribeProps> = ({ sharedState }): ReactElement => {
                     <Grid item xs={4} md={2} container justifyContent="flex-end">
                         <Button 
                             onClick={() => {
-                                navigator.clipboard.writeText(sharedState.transcript)
+                                // check if local transcript is not empty or undefined
+                                if(localTranscript !== undefined && localTranscript.length > 0)
+                                {
+                                    // join the array of strings into a single string
+                                    let transcriptAsString = localTranscript.join("\n");
+                                    // set the shared state transcript to the local transcript
+                                    try {
+                                        sharedState.setTranscript(transcriptAsString);    
+                                    } catch (error) {
+                                    }
+                                    
+                                    // copy the transcript to the clipboard
+                                    navigator.clipboard.writeText(transcriptAsString);
+                                }
                             }}
-                            disabled={sharedState.transcript === ""}
+                            disabled={localTranscript === undefined || localTranscript.length === 0}
                             variant="outlined"
                             color="primary"
                             startIcon={<ContentCopyIcon />}>
