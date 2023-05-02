@@ -3,6 +3,7 @@ import {Alert, Box, Button, Container, Drawer, Grid, Input, Typography, colors} 
 import SendIcon from '@mui/icons-material/Send';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ClearIcon from '@mui/icons-material/Clear';
+import CopyAllIcon from '@mui/icons-material/CopyAll';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import PageHeader  from "../components/PageHeader";
 import { SharedState } from "../state/SharedState";
@@ -219,10 +220,25 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                                 fontWeight: "bold",
                             }}
                         >
-                            {selectedInteraction == null ? "": selectedInteraction.query}
+                            {selectedInteraction == null ? "": selectedInteraction.query}                            
                         </Typography>
                         <Typography variant="h6">
                             {selectedInteraction == null ? "": selectedInteraction.response.data.choices[0].text}
+                            <br />
+                            <Button
+                                variant="outlined"
+                                color="secondary"
+                                size="small"
+                                onClick={() => {
+                                    if(selectedInteraction != null){
+                                        navigator.clipboard.writeText(selectedInteraction.response.data.choices[0].text);
+                                        sharedState.setTranscript(selectedInteraction.response.data.choices[0].text);
+                                    }
+                                }}
+                            >
+                            <CopyAllIcon />
+                            Copy Response
+                            </Button>
                         </Typography>
                         <pre
                         style={{

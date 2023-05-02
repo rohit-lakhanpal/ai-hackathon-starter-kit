@@ -36,15 +36,7 @@ export const routes: Array<Route> = [
         enabled: true,
         component: Transcribe,
         exact: true
-    },
-    {
-        key: 'speak-route',
-        title: 'Speak',
-        path: '/speak',
-        enabled: true,
-        component: Speak,
-        exact: true
-    },
+    },    
     {
         key: 'analyse-route',
         title: 'Analyse',
@@ -66,6 +58,14 @@ export const routes: Array<Route> = [
         path: '/chat',
         enabled: true,
         component: Chat        
+    },
+    {
+        key: 'speak-route',
+        title: 'Speak',
+        path: '/speak',
+        enabled: true,
+        component: Speak,
+        exact: true
     },
     {
         key: 'about-route',
