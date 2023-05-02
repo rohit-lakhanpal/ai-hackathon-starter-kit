@@ -32,7 +32,8 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
     const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
     const [content, setContent] = useState<string>("");
     const [interactions, setInteractions] = useState<Interation[]>([]);
-    const [selectedCompletion, setSelectedCompletion] = useState<CompletionResponse | null>(null);
+    //const [selectedCompletion, setSelectedCompletion] = useState<CompletionResponse | null>(null);
+    const [selectedInteraction, setSelectedInteraction] = useState<Interation | null>(null);
 
     const beingCompletions = async () => {        
         setProcessing(true);
@@ -46,11 +47,13 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
              * Look at complete.data.choices[0].text for the completion.
              */   
             
-            setSelectedCompletion(complete);
-            setInteractions((prev) => [...prev, {
+            
+            let newInteraction = {
                 response: complete,
                 query: content,
-            }]);
+            }
+            setSelectedInteraction(newInteraction);
+            setInteractions((prev) => [...prev, newInteraction]);
         } catch (error: any) {
             sharedState.setErrors((prev:any) => {
                 return [...prev, error.message];
@@ -66,10 +69,22 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
         setProcessing(false);
         setContent("");
         setInteractions([]);
-        setSelectedCompletion(null);
+        setSelectedInteraction(null);
     };
 
     const openSettings = async () => {
+        // Check if info is set, ese call the API
+        if (Object.keys(openAiInfo).length === 0) {
+            try {
+                var info = await oaiService.getInfoAsync();
+                setOpenAiInfo(info);
+            } catch (error: any) {
+                sharedState.setErrors((prev:any) => {
+                    return [...prev, error.message];
+                });
+            }
+        }
+
         // Toggle the drawer
         setIsSettingsOpen(!isSettingsOpen);
     };
@@ -77,8 +92,8 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
     useEffect(() => {
         (async ()=>{
             try {
-                var info = await oaiService.getInfoAsync();
-                setOpenAiInfo(info);
+                // var info = await oaiService.getInfoAsync();
+                // setOpenAiInfo(info);
                 // Initialise th content with the transcript
                 setContent(sharedState.transcript);
             } catch (error: any) {
@@ -97,7 +112,7 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
             padding: '2rem',
         }}>
            <Container maxWidth="xl">
-                <PageHeader title="Complete" subtitle={`Generate completions using Open AI (via ${openAiInfo.type}).`} />
+                <PageHeader title="Complete" subtitle={`Generate completions using Open AI${openAiInfo?.type!=null? " (via " + openAiInfo.type +")": ""}.`} />
                 <Box hidden={sharedState.errors.length < 1}>
                     {sharedState.errors.map((e: any, i: number) => {
                         return <Alert key={i} severity="error" onClose={() => sharedState.binErrors(i)}>
@@ -156,7 +171,7 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                         visibility: interactions == null || interactions.length <1 ? "hidden" : "visible",
                     }}
                     >
-                    <Grid item xs={12} md={6} style={{borderRight: "0.1rem solid lightgrey", padding: "1rem"}}>
+                    <Grid item xs={12} md={4} style={{borderRight: "0.1rem solid lightgrey", padding: "1rem"}}>
                         <Typography variant="h6">
                             Generated completions:
                         </Typography>
@@ -170,12 +185,13 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                                             </Avatar>
                                         </ListItemAvatar>
                                         <ListItemText
-                                            onClick={() => setSelectedCompletion(i.response)}
-                                            primary={i.query}
+                                            onClick={() => setSelectedInteraction(i)}
+                                            primary={i.query}                                                                               
                                             secondary={
                                             <React.Fragment>
+
                                                 <Typography
-                                                sx={{ display: 'inline' }}
+                                                sx={{display: 'inline'}}                                                
                                                 component="span"
                                                 variant="body2"
                                                 color="text.primary"
@@ -192,11 +208,24 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                             
                         </List>
                     </Grid>
-                    <Grid item xs={12} md={6} style={{padding:"1rem"}}>
-                        <Typography variant="h6">
-                            {selectedCompletion == null ? "": selectedCompletion.data.choices[0].text}
+                    <Grid item xs={12} md={8} style={{padding:"1rem"}}>
+                        <Typography
+                            variant="h6"
+                            style={{
+                                color: colors.blue[600],
+                                fontWeight: "bold",
+                            }}
+                        >
+                            {selectedInteraction == null ? "": selectedInteraction.query}
                         </Typography>
-                        <pre>{selectedCompletion == null ? "": JSON.stringify(selectedCompletion, null, 2)}</pre>
+                        <Typography variant="h6">
+                            {selectedInteraction == null ? "": selectedInteraction.response.data.choices[0].text}
+                        </Typography>
+                        <pre
+                        style={{
+                            fontSize: "0.8rem",
+                        }}
+                        >{selectedInteraction == null ? "": JSON.stringify(selectedInteraction.response, null, 2)}</pre>
                     </Grid>
                 </Grid>
                 <Grid container spacing={1} style={{padding: "1rem"}}

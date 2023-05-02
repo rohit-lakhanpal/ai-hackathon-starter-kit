@@ -23,7 +23,7 @@ const getTokenOrRefreshAsync = async () => {
         }
         
     } else {
-        console.log('Token fetched from cookie: ' + speechToken);
+        console.log('Token fetched from cookie');
         const token = speechToken.split(':');
         if(token.length === 4){
             return { 
