@@ -6,7 +6,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import PageHeader  from "../components/PageHeader";
 import { SharedState } from "../state/SharedState";
-import {oaiService, CompletionResponse } from "../services/oaiService";
+import {oaiService, CompletionResponse, OpenAIConfigType, TextCompletionRequestSettings } from "../services/oaiService";
 
 
 import List from '@mui/material/List';
@@ -27,7 +27,7 @@ interface Interation {
 
 
 const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
-    const [openAiInfo, setOpenAiInfo] = useState<any>({});
+    const [openAiInfo, setOpenAiInfo] = useState<OpenAIConfigType>();
     const [processing, setProcessing] = useState<boolean>(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
     const [content, setContent] = useState<string>("");
@@ -35,10 +35,10 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
     //const [selectedCompletion, setSelectedCompletion] = useState<CompletionResponse | null>(null);
     const [selectedInteraction, setSelectedInteraction] = useState<Interation | null>(null);
 
-    const beingCompletions = async () => {        
+    const processCompletions = async () => {        
         setProcessing(true);
-        try {
-            var complete = await oaiService.getCompletionAsync(content);
+        try {   
+            var complete = await oaiService.getCompletionAsync(content, (openAiInfo?.settings?.text as TextCompletionRequestSettings));
             /**
              * ***************************************
              * NOTE TO DEVELOPER: YOUR_MAGIC_GOES_HERE
@@ -73,8 +73,8 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
     };
 
     const openSettings = async () => {
-        // Check if info is set, ese call the API
-        if (Object.keys(openAiInfo).length === 0) {
+        // Check if info is set, else call the API
+        if (openAiInfo == null) {
             try {
                 var info = await oaiService.getInfoAsync();
                 setOpenAiInfo(info);
@@ -122,7 +122,7 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                 </Box>
                 <Grid container spacing={2} style={{marginTop:"1rem"}}>
                     <Grid item>
-                        <Button onClick={beingCompletions}
+                        <Button onClick={processCompletions}
                             disabled={content === "" || processing}
                             variant="contained"
                             startIcon={<SendIcon />}>
@@ -198,7 +198,10 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                                                 noWrap={true}
                                                 >                                                
                                                 </Typography>                
-                                                {" — " + i.response.data.choices[0].text}
+                                                {i.response.data.choices[0].text.length > 50 ?
+                                                    i.response.data.choices[0].text.substring(0, 50) + "..." :
+                                                    i.response.data.choices[0].text.substring(0, 50)
+                                                }
                                         </React.Fragment>}
                                         />
                                     </ListItem>

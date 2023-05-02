@@ -5,6 +5,28 @@ export interface CompletionMessage {
   content: string;
 }
 
+export interface CompletionRequestSettings
+{
+  model: string;  
+  max_tokens: number;
+  temperature: number;
+  top_p: number;
+  n: number;
+  stop: string[];  
+}
+
+export interface TextCompletionRequestSettings extends CompletionRequestSettings {
+  stream: boolean;
+  logprobs: number;
+  prompt: string;
+}
+
+export interface ChatCompletionRequestSettings extends CompletionRequestSettings {
+  frequency_penalty: number;
+  presence_penalty: number;  
+  messages: CompletionMessage[];
+}
+
 export interface CompletionResponse {
   data: {
     id: string;
@@ -23,15 +45,7 @@ export interface CompletionResponse {
       total_tokens: number;
     };
   };
-  settings: {
-    model: string;
-    prompt: string;
-    max_tokens: number;
-    temperature: number;
-    top_p: number;
-    n: number;
-    stream: boolean;
-  };
+  settings: TextCompletionRequestSettings;
   type: string;
 }
 
@@ -55,31 +69,27 @@ export interface ChatCompletionResponse {
       total_tokens: number;
     };
   };
-  settings: {
-    model: string;
-    messages: {
-      role: string;
-      content: string;
-    }[];
-    max_tokens: number;
-    temperature: number;
-    top_p: number;
-    n: number;
-    stop: string[];
-    frequency_penalty: number;
-    presence_penalty: number;
-  };
+  settings: ChatCompletionRequestSettings;
   type: string;
+}
+
+export interface OpenAIConfigType {
+  type: string;
+  settings: {
+    text: TextCompletionRequestSettings,
+    chat: ChatCompletionRequestSettings
+  }
 }
 
 export const oaiService = {
   getInfoAsync: async () => {
     const response = await axios.get("/api/openai/models");
-    return response.data;
+    return response.data as OpenAIConfigType;
   },
-  getCompletionAsync: async (prompt: string) => {
+  getCompletionAsync: async (prompt: string, options: TextCompletionRequestSettings | null) => {    
     const response = await axios.post("/api/openai/completions", {
-      prompt: prompt
+      prompt: prompt,
+      options
     });
     return response.data as CompletionResponse;
   },
