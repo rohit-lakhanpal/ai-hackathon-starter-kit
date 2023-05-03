@@ -159,7 +159,7 @@
 // export default Chat;
 
 import {ReactElement, FC} from "react";
-import {Box, Container} from "@mui/material";
+import {Box, Container, Typography} from "@mui/material";
 import PageHeader  from "../components/PageHeader";
 import { SharedState } from "../state/SharedState";
 
@@ -173,13 +173,17 @@ interface ChatProps {
 const Chat: FC<ChatProps> = ({sharedState}): ReactElement => {
     return (
         <Box sx={{
-          flexGrow: 1,
-          backgroundColor: 'whitesmoke',
-          display: 'block',            
-          padding: '2rem',
+            flexGrow: 1,
+            backgroundColor: 'whitesmoke',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
         }}>            
            <Container maxWidth="xl">
               <PageHeader title="Chat" subtitle="Chat functionality." />
+              <Typography variant="caption">
+                Coming soon ...
+              </Typography>
             </Container>
         </Box>
     );
