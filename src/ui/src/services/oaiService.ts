@@ -47,6 +47,10 @@ export interface CompletionResponse {
   };
   settings: TextCompletionRequestSettings;
   type: string;
+  error: {
+    code: number;
+    message: string;
+  }
 }
 
 export interface ChatCompletionResponse {
@@ -86,12 +90,22 @@ export const oaiService = {
     const response = await axios.get("/api/openai/models");
     return response.data as OpenAIConfigType;
   },
-  getCompletionAsync: async (prompt: string, options: TextCompletionRequestSettings | null) => {    
-    const response = await axios.post("/api/openai/completions", {
-      prompt: prompt,
-      options
-    });
-    return response.data as CompletionResponse;
+  getCompletionAsync: async (prompt: string, options: TextCompletionRequestSettings | null) => {
+    // Check if the call returns errors. If so, throw an error using the status code and error message.
+    try {
+      const response = await axios.post("/api/openai/completions", {
+        prompt: prompt,
+        options
+      });
+      return response.data as CompletionResponse;
+    }
+    catch (error: any) {
+      if (error.response) {
+        throw new Error(`${error.response?.status} - ${error.response?.data}`);
+      }
+      
+      throw new Error(error.message);
+    }
   },
   getChatCompletionAsync: async (
     messages: CompletionMessage[],

@@ -1,14 +1,4 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/pull/73 -->
 <a name="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-
 
 <!-- PROJECT SHIELDS -->
 <!--
@@ -30,16 +20,16 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
   <h3 align="center">
     AI Hackathon Starter Kit
   </h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    powered by
+    <br />
+    <a href="https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit">
+    <img src="src/ui/src/assets/logo.png" alt="Logo" height="80">
+  </a>
     <br />
     <a href="https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit"><strong>Explore the docs »</strong></a>
     <br />
@@ -84,8 +74,12 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<img src="docs/img/web.png" alt="Web Application" height="120">
+<img src="docs/img/analyse.png" alt="Analyse" height="120">
+<img src="docs/img/speak.png" alt="Speak" height="120">
+<img src="docs/img/transcribe.png" alt="Transcribe" height="120">
+<img src="docs/img/complete.png" alt="Complete" height="120">
+<img src="docs/img/api.png" alt="Web Application" height="120">
 
 Welcome to the AI Hackathon Starter Kit! This project has been created to make AI accessible and easy for everyone. Whether you are a beginner with no prior experience or an experienced developer, this starter kit is designed to help you incorporate AI into your apps quickly and easily.
 
@@ -266,6 +260,7 @@ Your APIs should now be running on at `localhost:8730`. Test the api by navigati
    ```
 Your web application should now be running on at `localhost:8700`. Test the web application by navigating to http://localhost:8700. You should see the following response:
 
+![Web Application](docs/img/web.png "Web Application")
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -274,7 +269,7 @@ Your web application should now be running on at `localhost:8700`. Test the web 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Whether you are building a chatbot, voice assistant, or any other type of AI-powered application, this starter kit provides you with all the tools you need to get started. So why wait? Download the AI Hackathon Starter Kit today and start building amazing AI-powered applications!
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
@@ -310,12 +305,14 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-## Warranty Disclaimer
+<!-- DISCPLAIMER -->
+## Disclaimer
 
 This template is provided "as is" without warranty of any kind, whether express or implied. Use at your own risk! The author will not be liable for any losses or damages associated with the use of this template. 
 
 It is intended to be used as a starting point for your own project and not as a final product.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- LICENSE -->
 ## License
@@ -340,16 +337,11 @@ Project Link: [https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit](http
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
+To be added!
 
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+* [Amazing work done by amulchapla](https://github.com/amulchapla)
+* [Prompt engineering](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/concepts/advanced-prompt-engineering?pivots=programming-language-chat-completions)
+* [Wersome ReadME templat](https://github.com/othneildrew/Best-README-Template)
 
 
 ```

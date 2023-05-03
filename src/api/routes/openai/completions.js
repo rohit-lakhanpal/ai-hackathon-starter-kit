@@ -30,8 +30,12 @@ router.post('/', async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        let message = error.message || 'There was an error generating completion.'
-        res.status(400).send(message);
+
+        // Check for a status code and message, otherwise use defaults
+        let statusCode = error?.statusCode || 400;
+        
+        let message = error?.message || 'There was an error generating completion.'
+        res.status(429).send(message);
     }
 });
 

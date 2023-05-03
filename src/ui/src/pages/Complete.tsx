@@ -38,8 +38,17 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
 
     const processCompletions = async () => {        
         setProcessing(true);
-        try {   
+        try {               
+
             var complete = await oaiService.getCompletionAsync(content, (openAiInfo?.settings?.text as TextCompletionRequestSettings));
+
+            if(complete.error != null){
+                console.log(complete.error);
+                sharedState.setErrors((prev:any) => {
+                    return [...prev, complete.error.code + ": " +complete.error.message];
+                });
+            }
+
             /**
              * ***************************************
              * NOTE TO DEVELOPER: YOUR_MAGIC_GOES_HERE
@@ -56,6 +65,7 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
             setSelectedInteraction(newInteraction);
             setInteractions((prev) => [newInteraction, ...prev]);
         } catch (error: any) {
+            console.log(error);
             sharedState.setErrors((prev:any) => {
                 return [...prev, error.message];
             });
