@@ -68,7 +68,8 @@ const Speak: FC<SpeakProps> = ({ sharedState }): ReactElement => {
                  * ***************************************
                  * NOTE TO DEVELOPER: YOUR_MAGIC_GOES_HERE
                  * ***************************************
-                 * This is where you would do something as the words spoken here.
+                 * This is where you would do interesting things 
+                 * with the text that was spoken.
                  */
                 setWordsSpoken((prev:string) => {
                     return prev + " " + event.privText;

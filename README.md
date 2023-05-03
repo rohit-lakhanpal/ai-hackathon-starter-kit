@@ -87,16 +87,38 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+Welcome to the AI Hackathon Starter Kit! This project has been created to make AI accessible and easy for everyone. Whether you are a beginner with no prior experience or an experienced developer, this starter kit is designed to help you incorporate AI into your apps quickly and easily.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
+The AI Hackathon Starter Kit has many features that make it an excellent tool for anyone looking to work with AI. 
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
+The tool showcases how to work with the following use cases:
+- Transcription (Speech to Text)
+- Text Analytics
+  - Sentiment Analysis
+  - Entity Recognition
+  - Special Entity Recognition for Healthcare
+  - Pii Recognition
+- Speak (Text to Speech)
+- Natural Language Generation
 
-Use the `BLANK_README.md` to get started.
+
+This kit removes the complexity of working with AI and allows you to focus on building your app. We have added placeholders for you to add your code and get started quickly. Search for the text "`NOTE TO DEVELOPER: YOUR_MAGIC_GOES_HERE`" to find the placeholders.
+
+```js
+var timeoutId = setTimeout(() => {
+    /**
+     * ***************************************
+     * NOTE TO DEVELOPER: YOUR_MAGIC_GOES_HERE
+     * ***************************************
+     * This is where you would do interesting things 
+     * with the words that were spoken.
+     */
+    setWordsSpoken((prev:string) => {
+        return prev + " " + event.privText;
+    });
+}, wordOffset);
+```
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -104,16 +126,20 @@ Use the `BLANK_README.md` to get started.
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+These usecases leverage the following technologies:
+- Azure Cognitive Services for:
+  - Speech [Learn More](https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/overview)
+  - Language [Learn More](https://learn.microsoft.com/en-us/azure/cognitive-services/language-service/language-detection/overview)
+- Azure Open AI [Learn More](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/overview)
 
-* [![Next][Next.js]][Next-url]
+Other major frameworks/libraries are listed here:
+
+* [![CognitiveServices][learn.microsoft.com]][CognitiveServices-url]
+* [![OpenAI][openai.com]][openai-url]
+* [![Node.js][Node.js]][Node-url]
+* [![Express][Express.js]][Express-url]
+* [![Material][mui.com]][mui-url]
 * [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -241,15 +267,15 @@ Use this space to list resources you find helpful and would like to give credit 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/rohit-lakhanpal/ai-hackathon-starter-kit.svg?style=for-the-badge
 [contributors-url]: https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/rohit-lakhanpal/ai-hackathon-starter-kit.svg?style=for-the-badge
 [forks-url]: https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/rohit-lakhanpal/ai-hackathon-starter-kit.svg?style=for-the-badge
 [stars-url]: https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/rohit-lakhanpal/ai-hackathon-starter-kit.svg?style=for-the-badge
 [issues-url]: https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/rohit-lakhanpal/ai-hackathon-starter-kit.svg?style=for-the-badge
 [license-url]: https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
@@ -258,6 +284,18 @@ Use this space to list resources you find helpful and would like to give credit 
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
+[mui.com]: https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white
+[mui-url]: https://mui.com/
+[Node.js]: https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=nodedotjs&logoColor=white
+[Node-url]: https://nodejs.org/en/
+[Express.js]: https://img.shields.io/badge/Express.js-404D59?style=for-the-badge
+[Express-url]: https://expressjs.com/
+[learn.microsoft.com]: https://img.shields.io/badge/Microsoft-666666?style=for-the-badge&logo=microsoft&logoColor=white
+[CognitiveServices-url]: https://learn.microsoft.com/en-us/azure/cognitive-services/
+
+[openai.com]: https://img.shields.io/badge/OpenAI-5A5AFF?style=for-the-badge&logo=openai&logoColor=white
+[openai-url]: https://openai.com/
+
 [Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
 [Vue-url]: https://vuejs.org/
 [Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
