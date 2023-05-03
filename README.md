@@ -150,6 +150,7 @@ To use this starter kit, you will need the following cloud services:
 4. Sign up for the Azure Cognitive Services Language API [here](https://azure.microsoft.com/en-us/try/cognitive-services/?api=language-services).
 5. Sign up for the Azure Cognitive Services OpenAI API [here](https://azure.microsoft.com/en-us/try/cognitive-services/?api=openai).
 
+To learn more about setting up your cloud resources, please visit see [cloud-setup](docs/cloud-setup.md).
 
 #### Setup Local Development Environment
 
