@@ -1,14 +1,4 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/pull/73 -->
 <a name="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-
 
 <!-- PROJECT SHIELDS -->
 <!--
@@ -30,16 +20,16 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
   <h3 align="center">
     AI Hackathon Starter Kit
   </h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    powered by
+    <br />
+    <a href="https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit">
+    <img src="src/ui/src/assets/logo.png" alt="Logo" height="80">
+  </a>
     <br />
     <a href="https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit"><strong>Explore the docs »</strong></a>
     <br />
@@ -84,19 +74,40 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+<img src="docs/img/app.gif" alt="Web Application" height="200">
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+Welcome to the AI Hackathon Starter Kit! This project has been created to make AI accessible and easy for everyone. Whether you are a beginner with no prior experience or an experienced developer, this starter kit is designed to help you incorporate AI into your apps quickly and easily.
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+The AI Hackathon Starter Kit has many features that make it an excellent tool for anyone looking to work with AI. 
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
+The tool showcases how to work with the following use cases:
+- Transcription (Speech to Text)
+- Text Analytics
+  - Sentiment Analysis
+  - Entity Recognition
+  - Special Entity Recognition for Healthcare
+  - Pii Recognition
+- Speak (Text to Speech)
+- Natural Language Generation
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
 
-Use the `BLANK_README.md` to get started.
+This kit removes the complexity of working with AI and allows you to focus on building your app. We have added placeholders for you to add your code and get started quickly. Search for the text "`NOTE TO DEVELOPER: YOUR_MAGIC_GOES_HERE`" to find the placeholders.
+
+```js
+var timeoutId = setTimeout(() => {
+    /**
+     * ***************************************
+     * NOTE TO DEVELOPER: YOUR_MAGIC_GOES_HERE
+     * ***************************************
+     * This is where you would do interesting things 
+     * with the words that were spoken.
+     */
+    setWordsSpoken((prev:string) => {
+        return prev + " " + event.privText;
+    });
+}, wordOffset);
+```
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -104,16 +115,20 @@ Use the `BLANK_README.md` to get started.
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+These usecases leverage the following technologies:
+- Azure Cognitive Services for:
+  - Speech [Learn More](https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/overview)
+  - Language [Learn More](https://learn.microsoft.com/en-us/azure/cognitive-services/language-service/language-detection/overview)
+- Azure Open AI [Learn More](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/overview)
 
-* [![Next][Next.js]][Next-url]
+Other major frameworks/libraries are listed here:
+
+* [![CognitiveServices][learn.microsoft.com]][CognitiveServices-url]
+* [![OpenAI][openai.com]][openai-url]
+* [![Node.js][Node.js]][Node-url]
+* [![Express][Express.js]][Express-url]
+* [![Material][mui.com]][mui-url]
 * [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -122,34 +137,127 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+#### Create Cloud Services
+
+To use this starter kit, you will need the following cloud services:
+1. Create a free Azure account [here](https://azure.microsoft.com/en-us/free/).
+2. Create a free OpenAI account [here](https://beta.openai.com/).
+3. Sign up for the Azure Cognitive Services Speech API [here](https://azure.microsoft.com/en-us/try/cognitive-services/?api=speech-services).
+4. Sign up for the Azure Cognitive Services Language API [here](https://azure.microsoft.com/en-us/try/cognitive-services/?api=language-services).
+5. Sign up for the Azure Cognitive Services OpenAI API [here](https://azure.microsoft.com/en-us/try/cognitive-services/?api=openai).
+
+
+#### Setup Local Development Environment
+
+1. [Node.js](https://nodejs.org/en/download/): Check if you have Node.js installed by running the following command in your terminal:
+    ```sh
+    node -v
+    ```
+    > Please validate that the version is 18.15 or higher.
+1. [Npm](https://www.npmjs.com/get-npm): Check if you have npm installed by running the following command in your terminal:
+    ```sh
+    npm -v
+    ```
+    > Please validate that the version is 9.6 or higher.
+1. [Git](https://git-scm.com/downloads)
+1. [Visual Studio Code](https://code.visualstudio.com/download)
+
+#### Prepare your environment
+
+A sample environment file has been provided for you to use. You will need to update the values in the file with your own values.
+
+1. Open up a text editor and get a copy of the evnironment file from: 
+  [github.com/rohit-lakhanpal/ai-hackathon-starter-kit/blob/main/src/api/.env-sample](https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/blob/main/src/api/.env-sample)
+  
+1. Update the values in the `.env` file with your own values. 
+
+    ```env
+    PORT=8730    
+    APP_NAME="YOUR_APP_NAME"
+    APP_DESCRIPTION="YOUR_APP_DESCRIPTION"
+    APP_REPOSITORY_OPTIONAL="YOUR_APP_REPOSITORY_URL (Optional)"
+    APP_LOGO_OPTIONAL="YOUR_APP_LOGO_URL (Optional)"
+    APP_FAVICON_OPTIONAL="YOUR_APP_FAVICON_URL (Optional)"
+    LANGUAGE_KEY="YOUR_AZURE_LANGUAGE_KEY"
+    LANGUAGE_REGION="YOUR_AZURE_LANGUAGE_REGION"
+    LANGUAGE_ENDPOINT_URL="YOUR_AZURE_LANGUAGE_ENDPOINT_URL"
+    SPEECH_KEY="YOUR_AZURE_SPEECH_KEY"
+    SPEECH_REGION="YOUR_AZURE_SPEECH_REGION"
+    SPEECH_ENDPOINT_URL_OPTIONAL="YOUR_AZURE_SPEECH_ENDPOINT_URL (Optional)"
+    OPENAI_TYPE="Must be either openai or azure"
+    OPENAI_KEY="YOUR_OPENAI_KEY"
+    OPENAI_AZURE_KEY="YOUR_OPENAI_AZURE_KEY"
+    OPENAI_AZURE_BASE_URL="[eg. https://[your-deployment-name].openai.azure.com/]"
+    OPENAI_AZURE_API_VERSION_OPTIONAL="[eg. 2022-12-01 or 2023-03-15-preview] (Optional)"
+    OPENAI_AZURE_MODELS_TEXT="deployment name for text-davinci-3"
+    OPENAI_AZURE_MODELS_CHAT="deployment name for GPT-3.5(turbo) or GPT-4"
+    ```
+
 
 ### Installation
 
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
+1. Clone the repo
+    ```sh
+    git clone https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit.git
+    ```
+1. Navigate to the src folder
+    ```sh
+    cd ai-hackathon-starter-kit/src
+    ```
+    Here you will notice two folders:
+    - api: This is the backend api that will be used to call cloud services.
+    - ui: This is the frontend web application that will be used to interact with the user.
+
+    Let's start with the api first.
+
+#### API 
+
+1. Navigate to the api project folder
+    ```sh
+    cd ai-hackathon-starter-kit/src/api    
+    ```
+1. Create a .env file and update the values with your own values from the step above. 
+    ```sh
+    cp .env-sample .env
+    ```
+1. Install NPM packages
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+1. Run the api
+   ```sh
+    npm start
    ```
+Your APIs should now be running on at `localhost:8730`. Test the api by navigating to http://localhost:8730/api/status. You should see the following response:
+```json
+{
+  "status":"200OK"
+}
+```
+![API Application](docs/img/api.png "Web Application")
+
+#### UI 
+1. Navigate to the web project folder and npm install
+    ```sh
+    cd ai-hackathon-starter-kit/src/ui    
+    ```
+1. Install NPM packages
+   ```sh
+   npm install
+   ```
+1. Start the web application
+   ```sh
+    npm start
+   ```
+Your web application should now be running on at `localhost:8700`. Test the web application by navigating to http://localhost:8700. You should see the following response:
+
+![Web Application](docs/img/web.png "Web Application")
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -158,7 +266,7 @@ _Below is an example of how you can instruct your audience on installing and set
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Whether you are building a chatbot, voice assistant, or any other type of AI-powered application, this starter kit provides you with all the tools you need to get started. So why wait? Download the AI Hackathon Starter Kit today and start building amazing AI-powered applications!
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
@@ -169,13 +277,8 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
+- [ ] Add Support for Chat Completion
+- [ ] Add Form Recognizer Use Cases
 
 See the [open issues](https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/issues) for a full list of proposed features (and known issues).
 
@@ -199,7 +302,14 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- DISCPLAIMER -->
+## Disclaimer
 
+This template is provided "as is" without warranty of any kind, whether express or implied. Use at your own risk! The author will not be liable for any losses or damages associated with the use of this template. 
+
+It is intended to be used as a starting point for your own project and not as a final product.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- LICENSE -->
 ## License
@@ -213,9 +323,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Rohit Lakhanpal - [@about_me](https://blog.try-it.dev/author/rohit/) - ai-hackathon-starter-kit@try-it.dev
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit](https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -224,16 +334,18 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
+To be added!
 
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+* [Amazing work done by amulchapla](https://github.com/amulchapla)
+* [Prompt engineering](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/concepts/advanced-prompt-engineering?pivots=programming-language-chat-completions)
+* [Wersome ReadME templat](https://github.com/othneildrew/Best-README-Template)
+
+
+```
+Special thanks to Github Copilot for helping me code this sample. Much love! 
+
+Generated by AI, edited by humans. 
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -241,15 +353,15 @@ Use this space to list resources you find helpful and would like to give credit 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/rohit-lakhanpal/ai-hackathon-starter-kit.svg?style=for-the-badge
 [contributors-url]: https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/rohit-lakhanpal/ai-hackathon-starter-kit.svg?style=for-the-badge
 [forks-url]: https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/rohit-lakhanpal/ai-hackathon-starter-kit.svg?style=for-the-badge
 [stars-url]: https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/rohit-lakhanpal/ai-hackathon-starter-kit.svg?style=for-the-badge
 [issues-url]: https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/rohit-lakhanpal/ai-hackathon-starter-kit.svg?style=for-the-badge
 [license-url]: https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
@@ -258,6 +370,18 @@ Use this space to list resources you find helpful and would like to give credit 
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
+[mui.com]: https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white
+[mui-url]: https://mui.com/
+[Node.js]: https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=nodedotjs&logoColor=white
+[Node-url]: https://nodejs.org/en/
+[Express.js]: https://img.shields.io/badge/Express.js-404D59?style=for-the-badge
+[Express-url]: https://expressjs.com/
+[learn.microsoft.com]: https://img.shields.io/badge/Microsoft-666666?style=for-the-badge&logo=microsoft&logoColor=white
+[CognitiveServices-url]: https://learn.microsoft.com/en-us/azure/cognitive-services/
+
+[openai.com]: https://img.shields.io/badge/OpenAI-5A5AFF?style=for-the-badge&logo=openai&logoColor=white
+[openai-url]: https://openai.com/
+
 [Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
 [Vue-url]: https://vuejs.org/
 [Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white

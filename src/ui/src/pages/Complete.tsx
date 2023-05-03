@@ -3,10 +3,11 @@ import {Alert, Box, Button, Container, Drawer, Grid, Input, Typography, colors} 
 import SendIcon from '@mui/icons-material/Send';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ClearIcon from '@mui/icons-material/Clear';
+import CopyAllIcon from '@mui/icons-material/CopyAll';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import PageHeader  from "../components/PageHeader";
 import { SharedState } from "../state/SharedState";
-import {oaiService, CompletionResponse } from "../services/oaiService";
+import {oaiService, CompletionResponse, OpenAIConfigType, TextCompletionRequestSettings } from "../services/oaiService";
 
 
 import List from '@mui/material/List';
@@ -27,7 +28,7 @@ interface Interation {
 
 
 const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
-    const [openAiInfo, setOpenAiInfo] = useState<any>({});
+    const [openAiInfo, setOpenAiInfo] = useState<OpenAIConfigType>();
     const [processing, setProcessing] = useState<boolean>(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
     const [content, setContent] = useState<string>("");
@@ -35,10 +36,19 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
     //const [selectedCompletion, setSelectedCompletion] = useState<CompletionResponse | null>(null);
     const [selectedInteraction, setSelectedInteraction] = useState<Interation | null>(null);
 
-    const beingCompletions = async () => {        
+    const processCompletions = async () => {        
         setProcessing(true);
-        try {
-            var complete = await oaiService.getCompletionAsync(content);
+        try {               
+
+            var complete = await oaiService.getCompletionAsync(content, (openAiInfo?.settings?.text as TextCompletionRequestSettings));
+
+            if(complete.error != null){
+                console.log(complete.error);
+                sharedState.setErrors((prev:any) => {
+                    return [...prev, complete.error.code + ": " +complete.error.message];
+                });
+            }
+
             /**
              * ***************************************
              * NOTE TO DEVELOPER: YOUR_MAGIC_GOES_HERE
@@ -53,8 +63,9 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                 query: content,
             }
             setSelectedInteraction(newInteraction);
-            setInteractions((prev) => [...prev, newInteraction]);
+            setInteractions((prev) => [newInteraction, ...prev]);
         } catch (error: any) {
+            console.log(error);
             sharedState.setErrors((prev:any) => {
                 return [...prev, error.message];
             });
@@ -73,8 +84,8 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
     };
 
     const openSettings = async () => {
-        // Check if info is set, ese call the API
-        if (Object.keys(openAiInfo).length === 0) {
+        // Check if info is set, else call the API
+        if (openAiInfo == null) {
             try {
                 var info = await oaiService.getInfoAsync();
                 setOpenAiInfo(info);
@@ -122,7 +133,7 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                 </Box>
                 <Grid container spacing={2} style={{marginTop:"1rem"}}>
                     <Grid item>
-                        <Button onClick={beingCompletions}
+                        <Button onClick={processCompletions}
                             disabled={content === "" || processing}
                             variant="contained"
                             startIcon={<SendIcon />}>
@@ -156,7 +167,7 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                             value={content} 
                             fullWidth={true}             
                             multiline={true}                     
-                            minRows={6}  
+                            minRows={4}  
                             maxRows={12} 
                             style={{                                
                                 fontSize:"1rem",
@@ -175,8 +186,8 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                         <Typography variant="h6">
                             Generated completions:
                         </Typography>
-                        <List sx={{ width: '100%', cursor: "pointer" }}>
-                            {interactions.reverse().map((i: Interation, index: number) => {
+                        <List sx={{ width: '100%', cursor: "pointer" }} >
+                            {interactions.map((i: Interation, index: number) => {
                                 return (<React.Fragment key={index}>
                                     <ListItem alignItems="flex-start">
                                         <ListItemAvatar>
@@ -198,7 +209,10 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                                                 noWrap={true}
                                                 >                                                
                                                 </Typography>                
-                                                {" — " + i.response.data.choices[0].text}
+                                                {i.response.data.choices[0].text.length > 50 ?
+                                                    i.response.data.choices[0].text.substring(0, 50) + "..." :
+                                                    i.response.data.choices[0].text.substring(0, 50)
+                                                }
                                         </React.Fragment>}
                                         />
                                     </ListItem>
@@ -216,10 +230,25 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                                 fontWeight: "bold",
                             }}
                         >
-                            {selectedInteraction == null ? "": selectedInteraction.query}
+                            {selectedInteraction == null ? "": selectedInteraction.query}                            
                         </Typography>
                         <Typography variant="h6">
                             {selectedInteraction == null ? "": selectedInteraction.response.data.choices[0].text}
+                            <br />
+                            <Button
+                                variant="outlined"
+                                color="secondary"
+                                size="small"
+                                onClick={() => {
+                                    if(selectedInteraction != null){
+                                        navigator.clipboard.writeText(selectedInteraction.response.data.choices[0].text);
+                                        sharedState.setTranscript(selectedInteraction.response.data.choices[0].text);
+                                    }
+                                }}
+                            >
+                            <CopyAllIcon />
+                            Copy Response
+                            </Button>
                         </Typography>
                         <pre
                         style={{

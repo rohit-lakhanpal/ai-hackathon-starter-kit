@@ -1,4 +1,4 @@
-import React, {ReactElement, FC} from "react";
+import {ReactElement, FC} from "react";
 import {Box, Container, Paper, Typography} from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { SharedState } from "../state/SharedState";
@@ -27,20 +27,7 @@ const About: FC<AboutProps> = ({sharedState}): ReactElement => {
            <Container maxWidth="xl">
                 <Typography variant="h3">About</Typography>
                 <Typography variant="subtitle1">About this app!</Typography>
-               
-                <Typography variant="body1">
-                    Body 1.
-                </Typography>
-                <Typography variant="body2">                    
-                    Body 2.
-                </Typography>
-                <Typography variant="caption">Caption!</Typography>
-                <Typography variant="overline">Overline!</Typography>                
-                <Typography variant="button">Button!</Typography>
-                <Item>Something!</Item>
-                <Typography variant="body2">
-                    {sharedState.transcript}
-                </Typography>
+                <Item>To be added!</Item>
             </Container>
         </Box>
     );
