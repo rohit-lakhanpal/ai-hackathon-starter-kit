@@ -74,12 +74,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-<img src="docs/img/web.png" alt="Web Application" height="120">
-<img src="docs/img/analyse.png" alt="Analyse" height="120">
-<img src="docs/img/speak.png" alt="Speak" height="120">
-<img src="docs/img/transcribe.png" alt="Transcribe" height="120">
-<img src="docs/img/complete.png" alt="Complete" height="120">
-<img src="docs/img/api.png" alt="Web Application" height="120">
+<img src="docs/img/app.gif" alt="Web Application" height="200">
 
 Welcome to the AI Hackathon Starter Kit! This project has been created to make AI accessible and easy for everyone. Whether you are a beginner with no prior experience or an experienced developer, this starter kit is designed to help you incorporate AI into your apps quickly and easily.
 
@@ -245,6 +240,8 @@ Your APIs should now be running on at `localhost:8730`. Test the api by navigati
   "status":"200OK"
 }
 ```
+![API Application](docs/img/api.png "Web Application")
+
 #### UI 
 1. Navigate to the web project folder and npm install
     ```sh
