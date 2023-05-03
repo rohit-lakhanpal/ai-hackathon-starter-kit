@@ -1,9 +1,10 @@
 import React, {ReactElement, FC, useState, useEffect} from "react";
-import {Alert, Box, Button, Container, Grid, Typography, colors} from "@mui/material";
+import {Alert, Box, Button, Container, Grid, Typography, Paper, colors} from "@mui/material";
 import { SharedState } from "../state/SharedState";
 import MicIcon from '@mui/icons-material/Mic';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import Clear from "@mui/icons-material/Clear";
 import PageHeader  from "../components/PageHeader";
 import { speechService } from '../services/speechService';
 import * as speechsdk from "microsoft-cognitiveservices-speech-sdk";
@@ -100,6 +101,7 @@ const Transcribe: FC<TranscribeProps> = ({ sharedState }): ReactElement => {
         setIsTranscribing(false);
     };
 
+
     useEffect(() => {
         (async()=>{
             await setupRecogniser();
@@ -148,6 +150,21 @@ const Transcribe: FC<TranscribeProps> = ({ sharedState }): ReactElement => {
                             Stop transcription
                         </Button>
                     </Grid>
+                     <Grid item>
+                        <Button onClick={()=>{
+                            // check if local transcript is not empty or undefined
+                            if(localTranscript !== undefined && localTranscript.length > 0)
+                            {
+                                setLocalTranscript([]);
+                            }
+                        }}
+                            disabled={isTranscribing}                            
+                            variant="outlined"
+                            color="info"
+                            startIcon={<Clear />}>
+                            Clear transcription
+                        </Button>
+                    </Grid>
                 </Grid>                
                 <Grid container spacing={1} style={{marginTop:"1rem"}}>
                     <Grid item xs={8} md={10}> 
@@ -178,24 +195,35 @@ const Transcribe: FC<TranscribeProps> = ({ sharedState }): ReactElement => {
                             Copy
                         </Button>
                     </Grid>
-                    <Grid item xs={12}>                        
-                        <Typography variant="body1" style={{
-                            marginLeft:"0.25rem",
-                            color:colors.grey[600]
+                    <Grid item xs={12}>
+                        <Paper style={{
+                            padding: "1rem",
                         }}>
-                            {(localTranscript.length === 0) ? "No transcription yet.." : ""}
-                        </Typography>
-                        {localTranscript.map((t: string, i: number) => {
-                            return (
-                                <Typography key={i} variant="body1" style={{marginLeft:"0.25rem", marginTop: "0.25rem"}}>
-                                    <MicIcon fontSize="small" style={{
-                                        verticalAlign: "bottom",
-                                        visibility: ((t !== "") ? "visible" : "hidden"),
-                                        color: colors.grey[500]
-                                    }} /> {t}
-                                </Typography>
-                            );
-                        })}
+                            <Typography variant="body1" style={{
+                                marginLeft:"0.25rem",
+                                color:colors.grey[600]
+                            }}>
+                                {(localTranscript.length === 0) ? "No transcription yet.." : ""}
+                            </Typography>
+                            {localTranscript.map((t: string, i: number) => {
+                                return (
+                                    <Typography key={i} variant="body1" style={{
+                                            marginLeft:"0.25rem", 
+                                            marginTop: "0.25rem",
+                                            fontSize: "1.25rem",
+                                            color:colors.blueGrey[800]
+                                        }}>
+                                        <MicIcon fontSize="small" style={{
+                                            verticalAlign: "middle",
+                                            visibility: ((t !== "") ? "visible" : "hidden"),
+                                            color: colors.grey[500],
+                                            fontSize: "1.55rem"
+                                        }} /> {t}
+                                    </Typography>
+                                );
+                            })}
+                        </Paper>                        
+                        
                     </Grid>
                 </Grid>             
             </Container>
