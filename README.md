@@ -148,34 +148,124 @@ Other major frameworks/libraries are listed here:
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+#### Create Cloud Services
+
+To use this starter kit, you will need the following cloud services:
+1. Create a free Azure account [here](https://azure.microsoft.com/en-us/free/).
+2. Create a free OpenAI account [here](https://beta.openai.com/).
+3. Sign up for the Azure Cognitive Services Speech API [here](https://azure.microsoft.com/en-us/try/cognitive-services/?api=speech-services).
+4. Sign up for the Azure Cognitive Services Language API [here](https://azure.microsoft.com/en-us/try/cognitive-services/?api=language-services).
+5. Sign up for the Azure Cognitive Services OpenAI API [here](https://azure.microsoft.com/en-us/try/cognitive-services/?api=openai).
+
+
+#### Setup Local Development Environment
+
+1. [Node.js](https://nodejs.org/en/download/): Check if you have Node.js installed by running the following command in your terminal:
+    ```sh
+    node -v
+    ```
+    > Please validate that the version is 18.15 or higher.
+1. [Npm](https://www.npmjs.com/get-npm): Check if you have npm installed by running the following command in your terminal:
+    ```sh
+    npm -v
+    ```
+    > Please validate that the version is 9.6 or higher.
+1. [Git](https://git-scm.com/downloads)
+1. [Visual Studio Code](https://code.visualstudio.com/download)
+
+#### Prepare your environment
+
+A sample environment file has been provided for you to use. You will need to update the values in the file with your own values.
+
+1. Open up a text editor and get a copy of the evnironment file from: 
+  [github.com/rohit-lakhanpal/ai-hackathon-starter-kit/blob/main/src/api/.env-sample](https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/blob/main/src/api/.env-sample)
+  
+1. Update the values in the `.env` file with your own values. 
+
+    ```env
+    PORT=8730    
+    APP_NAME="YOUR_APP_NAME"
+    APP_DESCRIPTION="YOUR_APP_DESCRIPTION"
+    APP_REPOSITORY_OPTIONAL="YOUR_APP_REPOSITORY_URL (Optional)"
+    APP_LOGO_OPTIONAL="YOUR_APP_LOGO_URL (Optional)"
+    APP_FAVICON_OPTIONAL="YOUR_APP_FAVICON_URL (Optional)"
+    LANGUAGE_KEY="YOUR_AZURE_LANGUAGE_KEY"
+    LANGUAGE_REGION="YOUR_AZURE_LANGUAGE_REGION"
+    LANGUAGE_ENDPOINT_URL="YOUR_AZURE_LANGUAGE_ENDPOINT_URL"
+    SPEECH_KEY="YOUR_AZURE_SPEECH_KEY"
+    SPEECH_REGION="YOUR_AZURE_SPEECH_REGION"
+    SPEECH_ENDPOINT_URL_OPTIONAL="YOUR_AZURE_SPEECH_ENDPOINT_URL (Optional)"
+    OPENAI_TYPE="Must be either openai or azure"
+    OPENAI_KEY="YOUR_OPENAI_KEY"
+    OPENAI_AZURE_KEY="YOUR_OPENAI_AZURE_KEY"
+    OPENAI_AZURE_BASE_URL="[eg. https://[your-deployment-name].openai.azure.com/]"
+    OPENAI_AZURE_API_VERSION_OPTIONAL="[eg. 2022-12-01 or 2023-03-15-preview] (Optional)"
+    OPENAI_AZURE_MODELS_TEXT="deployment name for text-davinci-3"
+    OPENAI_AZURE_MODELS_CHAT="deployment name for GPT-3.5(turbo) or GPT-4"
+    ```
+
 
 ### Installation
 
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
+1. Clone the repo
+    ```sh
+    git clone https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit.git
+    ```
+1. Navigate to the src folder
+    ```sh
+    cd ai-hackathon-starter-kit/src
+    ```
+    Here you will notice two folders:
+    - api: This is the backend api that will be used to call cloud services.
+    - ui: This is the frontend web application that will be used to interact with the user.
+
+    Let's start with the api first.
+
+#### API 
+
+1. Navigate to the api project folder
+    ```sh
+    cd ai-hackathon-starter-kit/src/api    
+    ```
+1. Create a .env file and update the values with your own values from the step above. 
+    ```sh
+    cp .env-sample .env
+    ```
+1. Install NPM packages
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+1. Run the api
+   ```sh
+    npm start
    ```
+Your APIs should now be running on at `localhost:8730`. Test the api by navigating to http://localhost:8730/api/status. You should see the following response:
+```json
+{
+  "status":"200OK"
+}
+```
+#### UI 
+1. Navigate to the web project folder and npm install
+    ```sh
+    cd ai-hackathon-starter-kit/src/ui    
+    ```
+1. Install NPM packages
+   ```sh
+   npm install
+   ```
+1. Start the web application
+   ```sh
+    npm start
+   ```
+Your web application should now be running on at `localhost:8700`. Test the web application by navigating to http://localhost:8700. You should see the following response:
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -195,13 +285,8 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
+- [ ] Add Support for Chat Completion
+- [ ] Add Form Recognizer Use Cases
 
 See the [open issues](https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/issues) for a full list of proposed features (and known issues).
 
@@ -226,6 +311,11 @@ Don't forget to give the project a star! Thanks again!
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+## Warranty Disclaimer
+
+This template is provided "as is" without warranty of any kind, whether express or implied. Use at your own risk! The author will not be liable for any losses or damages associated with the use of this template. 
+
+It is intended to be used as a starting point for your own project and not as a final product.
 
 <!-- LICENSE -->
 ## License
@@ -239,9 +329,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Rohit Lakhanpal - [@about_me](https://blog.try-it.dev/author/rohit/) - ai-hackathon-starter-kit@try-it.dev
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit](https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -260,6 +350,13 @@ Use this space to list resources you find helpful and would like to give credit 
 * [GitHub Pages](https://pages.github.com)
 * [Font Awesome](https://fontawesome.com)
 * [React Icons](https://react-icons.github.io/react-icons/search)
+
+
+```
+Special thanks to Github Copilot for helping me code this sample. Much love! 
+
+Generated by AI, edited by humans. 
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
