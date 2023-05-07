@@ -1,5 +1,5 @@
 import React, {ReactElement, FC, useState, useEffect} from "react";
-import {Alert, Box, Button, Container, Drawer, Grid, Input, Typography, colors} from "@mui/material";
+import {Alert, Box, Button, Container, Grid, Input, Typography, colors} from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -8,8 +8,7 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import PageHeader  from "../components/PageHeader";
 import { SharedState } from "../state/SharedState";
 import {oaiService, CompletionResponse, OpenAIConfigType, TextCompletionRequestSettings } from "../services/oaiService";
-
-
+import TextSettings from "../components/TextSettings";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
@@ -32,9 +31,11 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
     const [processing, setProcessing] = useState<boolean>(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
     const [content, setContent] = useState<string>("");
-    const [interactions, setInteractions] = useState<Interation[]>([]);
-    //const [selectedCompletion, setSelectedCompletion] = useState<CompletionResponse | null>(null);
+    const [interactions, setInteractions] = useState<Interation[]>([]);    
     const [selectedInteraction, setSelectedInteraction] = useState<Interation | null>(null);
+    const [temperature, setTemperature] = useState<number>();
+    const [topP, setTopP] = useState<number>();
+    const [maxTokens, setMaxTokens] = useState<number>();
 
     const processCompletions = async () => {        
         setProcessing(true);
@@ -89,6 +90,7 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
             try {
                 var info = await oaiService.getInfoAsync();
                 setOpenAiInfo(info);
+                setTemperature(info?.settings?.text?.temperature);
             } catch (error: any) {
                 sharedState.setErrors((prev:any) => {
                     return [...prev, error.message];
@@ -123,7 +125,7 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
             padding: '2rem',
         }}>
            <Container maxWidth="xl">
-                <PageHeader title="Complete" subtitle={`Generate completions using Open AI${openAiInfo?.type!=null? " (via " + openAiInfo.type +")": ""}.`} />
+                <PageHeader title="Complete" subtitle={`Generate completions using Open AI${openAiInfo?.type!=null? " (via " + openAiInfo.type + " " + openAiInfo?.settings?.text?.model +")": ""}.`} />
                 <Box hidden={sharedState.errors.length < 1}>
                     {sharedState.errors.map((e: any, i: number) => {
                         return <Alert key={i} severity="error" onClose={() => sharedState.binErrors(i)}>
@@ -167,8 +169,8 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                             value={content} 
                             fullWidth={true}             
                             multiline={true}                     
-                            minRows={4}  
-                            maxRows={12} 
+                            minRows={3}  
+                            maxRows={25} 
                             style={{                                
                                 fontSize:"1rem",
                                 //fontFamily: "monospace",
@@ -182,7 +184,7 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                         visibility: interactions == null || interactions.length <1 ? "hidden" : "visible",
                     }}
                     >
-                    <Grid item xs={12} md={4} style={{borderRight: "0.1rem solid lightgrey", padding: "1rem"}}>
+                    <Grid item xs={12} md={3} style={{borderRight: "0.1rem solid lightgrey", padding: "1rem"}}>
                         <Typography variant="h6">
                             Generated completions:
                         </Typography>
@@ -222,7 +224,7 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                             
                         </List>
                     </Grid>
-                    <Grid item xs={12} md={8} style={{padding:"1rem"}}>
+                    <Grid item xs={12} md={9} style={{padding:"1rem"}}>
                         <Typography
                             variant="h6"
                             style={{
@@ -267,44 +269,30 @@ const Complete: FC<CompleteProps> = ({sharedState}): ReactElement => {
                         Type something and click "Process" to get started.
                     </Typography>
                 </Grid>
-                <Drawer    
-                    anchor="right"
-                    open={isSettingsOpen}
-                    onClose={() => {
-                        setIsSettingsOpen(false);
-                    }}
-                    sx={{
-                        flexShrink: 0,
-                    }}
-                    PaperProps={{
-                        sx: {
-                            width:{
-                                xs: "100%",
-                                sm: "100%",
-                                md: "100%",
-                                lg: "50%",
-                                xl: "50%",
-                            },
-                        }
-                    }}
-                    >
-                    <Box sx={{ width: '100%', padding: "1rem" }}>
-                        <Button 
-                            onClick={() => {
-                                setIsSettingsOpen(!isSettingsOpen);
-                            }}                            
-                            variant="outlined"
-                            color="secondary"
-                            startIcon={<ClearIcon />}                            
-                            >
-                            Close Settings
-                        </Button>
-                        <Typography variant="h6">
-                            Open AI Settings to go here ...
-                        </Typography>
-                        <pre>{JSON.stringify(openAiInfo, null, 2)}</pre>
-                    </Box>                    
-                </Drawer>
+                {
+                    openAiInfo != null ?
+                        <TextSettings
+                        open={isSettingsOpen}
+                        settings={openAiInfo.settings.text}
+                        onClose={() => {
+                            setIsSettingsOpen(false);
+                        }}
+                        onSubmit={(settings: TextCompletionRequestSettings) => {
+                            let toSubmit = openAiInfo as OpenAIConfigType;
+                            try {
+                                toSubmit.settings.text = settings;
+                                setOpenAiInfo(toSubmit);
+                                setIsSettingsOpen(false);
+                            } catch (error) {
+                                
+                            }
+                            
+                        }}
+                    /> : 
+                    <>
+                    </>
+                }
+                
             </Container>
         </Box>
     );
