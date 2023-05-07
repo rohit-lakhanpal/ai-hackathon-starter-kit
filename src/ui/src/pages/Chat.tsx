@@ -1,193 +1,250 @@
-// import React, { ReactElement, FC, useState } from "react";
-// import {
-//   Box,
-//   Container,
-//   TextField,
-//   Button,
-//   Typography,
-//   Paper,
-//   Grid,
-//   IconButton,
-//   Dialog,
-//   DialogTitle,
-//   DialogContent,
-//   DialogActions,
-//   FormControl,
-//   InputLabel,
-//   OutlinedInput,
-// } from "@mui/material";
-// import { Send, Settings, Mic } from "@mui/icons-material";
-// import { SharedState } from "../state/SharedState";
-
-// interface ChatProps {
-//   sharedState: SharedState;
-// }
-
-// interface ChatMessage {
-//   message: string;
-//   sender: "user" | "system";
-// }
-
-// const Chat: FC<ChatProps> = ({ sharedState }): ReactElement => {
-//   const [message, setMessage] = useState<string>("");
-//   const [messages, setMessages] = useState<any[]>([]);
-//   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
-//   const [modelName, setModelName] = useState<string>("");
-
-//   const sendMessage = () => {
-//     const userMessage = { message, sender: "user" };
-//     const systemMessage = { message: "Dummy response from the system", sender: "system" };
-
-//     setMessages([...messages, userMessage, systemMessage]);
-//     setMessage("");
-//   };
-
-//   const toggleSettingsDialog = () => {
-//     setSettingsOpen(!settingsOpen);
-//   };
-
-//   const startSpeechRecognition = () => {
-//     console.log("Starting speech recognition...");
-//   };
-
-//   return (
-//     <Box
-//       sx={{
-//         minHeight: "100vh",
-//         display: "flex",
-//         flexDirection: "column",
-//         backgroundColor: "whitesmoke",
-//         padding: "2rem",
-//       }}
-//     >
-//       <Container maxWidth="xl">
-//         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-//           <Typography variant="h3">Chat</Typography>
-//           <IconButton color="primary" onClick={toggleSettingsDialog}>
-//             <Settings />
-//           </IconButton>
-//         </Box>
-//         <Box sx={{ flexGrow: 1, overflowY: "auto", marginBottom: 2 }}>
-//           {messages.map((msg, index) => (
-//             <Paper
-//               key={index}
-//               sx={{
-//                 padding: 1,
-//                 margin: "8px 0",
-//                 background:
-//                   msg.sender === "system" ? "lightgrey" : "primary.main",
-//                 color: msg.sender === "system" ? "black" : "white",
-//                 alignSelf: msg.sender === "system" ? "flex-start" : "flex-end",
-//               }}
-//             >
-//               <Typography>{msg.message}</Typography>
-//             </Paper>
-//           ))}
-//         </Box>
-//       </Container>
-//       <Box
-//         component="footer"
-//         sx={{
-//           backgroundColor: "whitesmoke",
-//           borderTop: "1px solid lightgrey",
-//           padding: "1rem",
-//         }}
-//       >
-//         <Container maxWidth="xl">
-//           <Grid container spacing={2}>
-//             <Grid item xs={8}>
-//               <TextField
-//                 fullWidth
-//                 variant="outlined"
-//                 label="Type your message"
-//                 value={message}
-//                 onChange={(e) => setMessage(e.target.value)}
-//                 onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-//               />
-//             </Grid>
-//             <Grid item xs={2}>
-//               <Button fullWidth variant="contained" color="primary" onClick={startSpeechRecognition}>
-//                 <Mic />
-//               </Button>
-//             </Grid>
-//             <Grid item xs={2}>
-//               <Button
-//                 fullWidth
-//                 variant="contained"
-//                 color="primary"
-//                 onClick={sendMessage}
-//               >
-//                 <Send />
-//               </Button>
-//             </Grid>
-//           </Grid>
-//         </Container>
-//       </Box>
-
-//       <Dialog
-//         open={settingsOpen}
-//         onClose={toggleSettingsDialog}
-//         aria-labelledby="settings-dialog-title"
-//       >
-//         <DialogTitle id="settings-dialog-title">Settings</DialogTitle>
-//         <DialogContent>
-//           <form>
-//             <FormControl fullWidth variant="outlined" margin="normal">
-//               <InputLabel htmlFor="model-name">Model Name</InputLabel>
-//               <OutlinedInput
-//                 id="model-name"
-//                 value={modelName}
-//                 onChange={(e) => setModelName(e.target.value)}
-//                 label="Model Name"
-//               />
-//             </FormControl>
-//           </form>
-//         </DialogContent>
-//         <DialogActions>
-//           <Button onClick={toggleSettingsDialog} color="primary">
-//             Cancel
-//           </Button>
-//           <Button onClick={toggleSettingsDialog} color="primary" variant="contained">
-//             Save
-//           </Button>
-//         </DialogActions>
-//       </Dialog>
-//     </Box>
-//   );
-// };
-
-// export default Chat;
-
-import {ReactElement, FC} from "react";
-import {Box, Container, Typography} from "@mui/material";
-import PageHeader  from "../components/PageHeader";
+import { ReactElement, useState, useEffect, FC } from "react";
+import {
+    Box,
+    Container,
+    FormControl,
+    TextField,
+    Stack,
+    Button,
+    Select,
+    InputLabel,
+    MenuItem,
+    Grid,
+    Divider,
+    Alert
+} from "@mui/material";
+import PageHeader from "../components/PageHeader";
 import { SharedState } from "../state/SharedState";
 
-
-
+import {
+    oaiService,
+    ChatCompletionResponse,
+    OpenAIConfigType,
+    CompletionMessage,
+    ChatCompletionRequestSettings
+} from "../services/oaiService";
 
 interface ChatProps {
     sharedState: SharedState;
 }
 
-const Chat: FC<ChatProps> = ({sharedState}): ReactElement => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+interface Interation {
+    response: ChatCompletionResponse;
+    query: string;
+}
+
+const Chat: FC<ChatProps> = ({ sharedState }): ReactElement => {
+    const [processing, setProcessing] = useState<boolean>(false);
+    const [openAiInfo, setOpenAiInfo] = useState<OpenAIConfigType>();
+    const [completionMessages, setCompletionMessages] = useState<CompletionMessage[]>([]);
+
+
+    const processCompletions = async () => {
+        setProcessing(true);
+        try {
+            var complete = await oaiService.getChatCompletionAsync(
+                completionMessages,
+                openAiInfo?.settings?.chat as ChatCompletionRequestSettings
+            );
+
+            if (complete.error != null) {
+                console.log(complete.error);
+                sharedState.setErrors((prev: any) => {
+                    return [...prev, complete.error.code + ": " + complete.error.message];
+                });
+            }
+
+            /**
+             * ***************************************
+             * NOTE TO DEVELOPER: YOUR_MAGIC_GOES_HERE
+             * ***************************************
+             * This is where you would do something with the completion generated with OpenAI.
+             * Look at complete.data.choices[0].message for the completion.
+             */
+
+            // Add the completion to the completion messages
+            setCompletionMessages((prev) => {
+                return [...prev, {
+                    role: complete.data.choices[0].message.role as any,
+                    content: complete.data.choices[0].message.content
+                }];
+            });
+        } catch (error: any) {
+            console.log(error);
+            sharedState.setErrors((prev: any) => {
+                return [...prev, error.message];
+            });
+        } finally {
+            setProcessing(false);
+        }
+    };
+
+    useEffect(() => {
+        (async () => {
+            try {
+                var info = await oaiService.getInfoAsync();
+                setOpenAiInfo(info);
+                // Initialise the content with the transcript
+                // setContent(sharedState.transcript);
+
+                var completionMessagesText = "You are an AI assistant that helps people find information.";
+
+                setCompletionMessages([{
+                    role: "system",
+                    content: completionMessagesText
+                }])
+
+            } catch (error: any) {
+                sharedState.setErrors((prev: any) => {
+                    return [...prev, error.message];
+                });
+            }
+        })();
+    }, [sharedState]);
+
     return (
-        <Box sx={{
-            flexGrow: 1,
-            backgroundColor: 'whitesmoke',
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-        }}>            
-           <Container maxWidth="xl">
-              <PageHeader title="Chat" subtitle="Chat functionality." />
-              <Typography variant="caption">
-                Coming soon ...
-              </Typography>
+        <Box
+            sx={{
+                flexGrow: 1,
+                backgroundColor: "whitesmoke",
+                display: "block",
+                padding: "2rem",
+            }}
+        >
+            <Container maxWidth="xl">
+                <PageHeader title="Chat" 
+                subtitle={`Generate chat completions using Open AI${openAiInfo?.type != null
+                            ? " (via " +
+                            openAiInfo.type +
+                            " " +
+                            openAiInfo?.settings?.chat?.model +
+                            ")"
+                            : ""
+                        }.`} />
+                <Box hidden={sharedState.errors.length < 1}>
+                    {sharedState.errors.map((e: any, i: number) => {
+                        return (
+                            <Alert
+                                key={i}
+                                severity="error"
+                                onClose={() => sharedState.binErrors(i)}
+                            >
+                                {e}
+                            </Alert>
+                        );
+                    })}
+                </Box>
+                <Stack spacing={2}>
+                    {completionMessages.map((message, index) => {
+                        return (
+                            <Grid container spacing={2} key={index} style={{
+                                margin: "1rem",
+                                paddingTop: "0.5rem",
+                                paddingBottom: "1rem",
+                                paddingRight: "1rem"
+                            }}>
+                                <Grid item xs={12}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={message.role}
+                                            label="role"
+                                            onChange={(event) => {
+                                                var newMessages = [...completionMessages];
+                                                newMessages[index].role = event.target.value as any;
+                                                setCompletionMessages(newMessages);
+                                            }}
+                                            style={{
+                                                backgroundColor: message.role === "system" ? "#e0e0e0" : message.role === "user" ? "#e3f2fd" : "#f3e5f5"
+                                            }}
+                                        >
+                                            <MenuItem value={"system"}>System</MenuItem>
+                                            <MenuItem value={"user"}>User</MenuItem>
+                                            <MenuItem value={"assistant"}>Assistant</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        id="outlined-multiline-static"
+                                        label={message.role + " message"}
+                                        multiline
+                                        rows={4}
+                                        defaultValue={message.content}
+                                        fullWidth
+                                        onChange={(event) => {
+                                            var newMessages = [...completionMessages];
+                                            newMessages[index].content = event.target.value;
+                                            setCompletionMessages(newMessages);
+                                        }}
+                                    />
+
+                                </Grid>
+                                <Grid item justifyContent={"flex-end"} xs={12}>
+                                    <Button
+                                        variant="outlined"
+                                        color="secondary" sx={{ mt: 3 }}
+                                        onClick={async () => {
+                                            var newMessages = [...completionMessages];
+
+                                            // If last message was a system or assistant message, add a user message
+                                            // Otherwise add an assistant message
+                                            if (newMessages[index].role === "system" || newMessages[index].role === "assistant") {
+                                                newMessages.push({
+                                                    role: "user",
+                                                    content: ""
+                                                });
+                                            } else {
+                                                newMessages.push({
+                                                    role: "assistant",
+                                                    content: ""
+                                                });
+                                            }
+
+                                            setCompletionMessages(newMessages);
+
+                                        }}
+                                        disabled={processing}
+                                    >
+                                        add a new message from here
+                                    </Button>
+                                    <Button
+                                        style={{ marginLeft: "1rem" }}
+                                        variant="outlined"
+                                        color="error" sx={{ mt: 3 }}
+                                        onClick={async () => {
+                                            var newMessages = [...completionMessages];
+                                            newMessages.splice(index, 1);
+                                            setCompletionMessages(newMessages);
+                                        }}
+                                        disabled={message.role === "system" || processing}
+                                    >
+                                        delete {message.role} message.
+                                    </Button>
+                                </Grid>
+                                <Divider />
+                            </Grid>
+                        );
+                    })
+                    }
+
+
+                    <Button
+                        variant="contained" color="primary" sx={{ mt: 3 }}
+                        onClick={processCompletions}
+                        disabled={completionMessages.length === 0 || processing}
+                    >
+                        {processing ? "Processing..." : "Process completions"}
+                    </Button>
+                    <pre>{JSON.stringify(completionMessages, null, 4)}</pre>
+                </Stack>
             </Container>
+
         </Box>
     );
 };
 
 export default Chat;
-

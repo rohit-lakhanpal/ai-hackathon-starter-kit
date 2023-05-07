@@ -34,7 +34,7 @@
     <a href="https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit">View Demo</a>
+    <a target="_blank" rel="noopener noreferrer" href="https://ai-hackathon-starter-kit-dev.azurewebsites.net/">View Demo</a>
     ·
     <a href="https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/issues">Report Bug</a>
     ·
