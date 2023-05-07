@@ -4,7 +4,6 @@ import {
     Stack,
     Slider,
     FormControl,
-    FormHelperText,
     Divider,
     Typography,
     TextField,
