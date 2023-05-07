@@ -332,11 +332,9 @@ Project Link: [https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit](http
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-To be added!
-
 * [Amazing work done by amulchapla](https://github.com/amulchapla)
 * [Prompt engineering](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/concepts/advanced-prompt-engineering?pivots=programming-language-chat-completions)
-* [This amazing ReadME templat](https://github.com/othneildrew/Best-README-Template)
+* [This amazing ReadME template](https://github.com/othneildrew/Best-README-Template)
 
 
 ```
