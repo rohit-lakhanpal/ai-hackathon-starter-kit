@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export interface CompletionMessage {
-  role: string;
+  role: "system" | "user" | "assistant";
   content: string;
 }
 
@@ -75,6 +75,10 @@ export interface ChatCompletionResponse {
   };
   settings: ChatCompletionRequestSettings;
   type: string;
+  error: {
+    code: number;
+    message: string;
+  }
 }
 
 export interface OpenAIConfigType {
@@ -109,11 +113,22 @@ export const oaiService = {
   },
   getChatCompletionAsync: async (
     messages: CompletionMessage[],
-    model: string
+    options: ChatCompletionRequestSettings | null
   ) => {
-    const response = await axios.post("/api/openai/chat/completions", {
-      message: messages
-    });
-    return response.data as ChatCompletionResponse;
+    try {
+      const response = await axios.post("/api/openai/chat/completions", {
+        messages: messages,
+        options
+      });
+      return response.data as ChatCompletionResponse;
+    }
+    catch (error: any) {
+      if (error.response) {
+        throw new Error(`${error.response?.status} - ${error.response?.data}`);
+      }
+      
+      throw new Error(error.message);
+    }
+    
   },
 };
