@@ -6,7 +6,7 @@ const config = require('../../utilities/config');
 /* GET /api/speech/token */
 router.get('/', async (req, res, next) => {
   // Call the speech service to get a token
-  const url = `https://${config.values.speech.region}.api.cognitive.microsoft.com/sts/v1.0/issueToken`;
+  var url = `https://${config.values.speech.region}.api.cognitive.microsoft.com/sts/v1.0/issueToken`;
   
   // Override the url with the endpoint url if it is set (to support custom endpoints)
   if (config.values.speech.endpointUrlOptional) {

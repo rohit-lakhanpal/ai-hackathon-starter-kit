@@ -68,6 +68,9 @@ const Chat: FC<ChatProps> = ({ sharedState }): ReactElement => {
                 return [...prev, {
                     role: complete.data.choices[0].message.role as any,
                     content: complete.data.choices[0].message.content
+                },{
+                    role: "user",
+                    content: ""
                 }];
             });
         } catch (error: any) {
@@ -113,14 +116,14 @@ const Chat: FC<ChatProps> = ({ sharedState }): ReactElement => {
             }}
         >
             <Container maxWidth="xl">
-                <PageHeader title="Chat" 
-                subtitle={`Generate chat completions using Open AI${openAiInfo?.type != null
-                            ? " (via " +
-                            openAiInfo.type +
-                            " " +
-                            openAiInfo?.settings?.chat?.model +
-                            ")"
-                            : ""
+                <PageHeader title="Chat"
+                    subtitle={`Generate chat completions using Open AI${openAiInfo?.type != null
+                        ? " (via " +
+                        openAiInfo.type +
+                        " " +
+                        openAiInfo?.settings?.chat?.model +
+                        ")"
+                        : ""
                         }.`} />
                 <Box hidden={sharedState.errors.length < 1}>
                     {sharedState.errors.map((e: any, i: number) => {
@@ -138,18 +141,28 @@ const Chat: FC<ChatProps> = ({ sharedState }): ReactElement => {
                 <Stack spacing={2}>
                     {completionMessages.map((message, index) => {
                         return (
-                            <Grid container spacing={2} key={index} style={{
-                                margin: "1rem",
-                                paddingTop: "0.5rem",
-                                paddingBottom: "1rem",
-                                paddingRight: "1rem"
-                            }}>
+                            <Grid container spacing={2}
+                                key={index}
+                                style={{
+                                    margin: "1rem 0 1rem 0",
+                                    padding: "1rem 1.5rem 1.5rem 1rem",
+                                    backgroundColor: message.role === "system" ? "#e0e0e0" : message.role === "user" ? "#e3f2fd" : "#f3e5f5",
+                                    borderRadius: "1rem",
+                                    boxShadow: "0 0 0.5rem 0.1rem rgba(0, 0, 0, 0.1)",
+                                    alignSelf: message.role === "user" ? "end" : "start"
+                                }}
+                                sx={{
+                                    width: {
+                                        xs: "100%",
+                                        sm: "100%",
+                                        md: "80%"
+                                    }
+                                }}
+                            >
                                 <Grid item xs={12}>
                                     <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                                        <InputLabel>Role</InputLabel>
                                         <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
                                             value={message.role}
                                             label="role"
                                             onChange={(event) => {
@@ -157,24 +170,22 @@ const Chat: FC<ChatProps> = ({ sharedState }): ReactElement => {
                                                 newMessages[index].role = event.target.value as any;
                                                 setCompletionMessages(newMessages);
                                             }}
-                                            style={{
-                                                backgroundColor: message.role === "system" ? "#e0e0e0" : message.role === "user" ? "#e3f2fd" : "#f3e5f5"
-                                            }}
+                                            variant="outlined"
                                         >
-                                            <MenuItem value={"system"}>System</MenuItem>
-                                            <MenuItem value={"user"}>User</MenuItem>
-                                            <MenuItem value={"assistant"}>Assistant</MenuItem>
+                                            {/* IF index is 0, then have the "system" menu item, else have "user" and "assistant" menu items */}
+                                            {index === 0 ? <MenuItem value="system">System</MenuItem> : <MenuItem value="user">User</MenuItem>}
+                                            {index !== 0 ? <MenuItem value="assistant">Assistant</MenuItem> : null}
                                         </Select>
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        id="outlined-multiline-static"
                                         label={message.role + " message"}
                                         multiline
-                                        rows={4}
+                                        minRows={4}
                                         defaultValue={message.content}
                                         fullWidth
+                                        variant="standard"
                                         onChange={(event) => {
                                             var newMessages = [...completionMessages];
                                             newMessages[index].content = event.target.value;
@@ -207,9 +218,10 @@ const Chat: FC<ChatProps> = ({ sharedState }): ReactElement => {
                                             setCompletionMessages(newMessages);
 
                                         }}
-                                        disabled={processing}
+                                        // Disabled if this this is not the last message or if is processing
+                                        disabled={index !== completionMessages.length - 1 || processing}
                                     >
-                                        add a new message from here
+                                        add a new reply from here
                                     </Button>
                                     <Button
                                         style={{ marginLeft: "1rem" }}
@@ -222,7 +234,7 @@ const Chat: FC<ChatProps> = ({ sharedState }): ReactElement => {
                                         }}
                                         disabled={message.role === "system" || processing}
                                     >
-                                        delete {message.role} message.
+                                        delete this {message.role} message.
                                     </Button>
                                 </Grid>
                                 <Divider />

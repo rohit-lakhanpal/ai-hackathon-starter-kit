@@ -245,6 +245,10 @@ Your APIs should now be running on at `localhost:8730`. Test the api by navigati
     ```sh
     cd ai-hackathon-starter-kit/src/ui    
     ```
+1. Create a .env file using the `.env-sample` as a base. In the UI project, the only value you need to update is the PORT value (in case you want to run it on a port other than 8700). 
+    ```sh
+    cp .env-sample .env
+    ```
 1. Install NPM packages
    ```sh
    npm install
@@ -253,7 +257,11 @@ Your APIs should now be running on at `localhost:8730`. Test the api by navigati
    ```sh
     npm start
    ```
-Your web application should now be running on at `localhost:8700`. Test the web application by navigating to http://localhost:8700. You should see the following response:
+Your web application should now be running on at `localhost:8700`. Test the web application by navigating to http://localhost:8700.
+
+> **Note**: If you changed the port in the `.env` file, please use that port instead of 8700.
+
+You should see the following response:
 
 ![Web Application](docs/img/web.png "Web Application")
 
