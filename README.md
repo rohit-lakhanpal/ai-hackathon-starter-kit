@@ -300,11 +300,16 @@ Contributions are what make the open source community such an amazing place to l
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 Don't forget to give the project a star! Thanks again!
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. **Fork the Project**: Fork the repo you want to contribute to by clicking the Fork button on the top right corner of the repo page.
+1. **Clone the Repo**: Clone the forked repo to your local machine using the command (`git clone URL_OF_FORK`).
+2. **Branch**: Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. **Commit**: Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. **Push to the Branch**: (`git push origin feature/AmazingFeature`)
+5. **Open a Pull Request**: Go to your forked repo on GitHub and click Contribute and then Open a pull request. Fill out the details of your pull request and submit it.
+
+Learn more about contributing to projects [here](https://docs.github.com/en/get-started/quickstart/contributing-to-projects).
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
