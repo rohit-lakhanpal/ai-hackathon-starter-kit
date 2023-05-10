@@ -307,11 +307,7 @@ Don't forget to give the project a star! Thanks again!
 4. **Push to the Branch**: (`git push origin feature/AmazingFeature`)
 5. **Open a Pull Request**: Go to your forked repo on GitHub and click Contribute and then Open a pull request. Fill out the details of your pull request and submit it.
 
-
-
-
-
-
+Learn more about contributing to projects [here](https://docs.github.com/en/get-started/quickstart/contributing-to-projects).
 
 
 
