@@ -192,7 +192,7 @@ A sample environment file has been provided for you to use. You will need to upd
     OPENAI_KEY="YOUR_OPENAI_KEY"
     OPENAI_AZURE_KEY="YOUR_OPENAI_AZURE_KEY"
     OPENAI_AZURE_BASE_URL="[eg. https://[your-deployment-name].openai.azure.com/]"
-    OPENAI_AZURE_API_VERSION_OPTIONAL="[eg. 2022-12-01 or 2023-03-15-preview] (Optional)"
+    OPENAI_AZURE_API_VERSION_OPTIONAL="2023-03-15-preview"
     OPENAI_AZURE_MODELS_TEXT="deployment name for text-davinci-3"
     OPENAI_AZURE_MODELS_CHAT="deployment name for GPT-3.5(turbo) or GPT-4"
     ```

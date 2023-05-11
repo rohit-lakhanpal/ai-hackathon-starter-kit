@@ -118,9 +118,8 @@ const config = {
                 if (!config.values.openAI.azure.apiVersionOptional) {
                     config.values.openAI.azure.apiVersionOptional = "2023-03-15-preview";
                 } else {                    
-                    if (config.values.openAI.azure.apiVersionOptional !== "2022-12-01"
-                         && config.values.openAI.azure.apiVersionOptional !== "2023-03-15-preview") {
-                        errors.push(errorGenerator(`OpenAI Azure api version`, `OPENAI_AZURE_API_VERSION`, '2022-12-01 or 2023-03-15-preview'));
+                    if (config.values.openAI.azure.apiVersionOptional !== "2023-03-15-preview") {
+                        errors.push(errorGenerator(`OpenAI Azure api version`, `OPENAI_AZURE_API_VERSION`, '2023-03-15-preview (Do not use 2022-12-01 as it does not allow the chat completions endpoint.)'));
                     }
                 }
 
