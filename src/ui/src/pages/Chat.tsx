@@ -13,9 +13,9 @@ import {
     Divider,
     Alert
 } from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
 import PageHeader from "../components/PageHeader";
 import { SharedState } from "../state/SharedState";
-
 import {
     oaiService,
     ChatCompletionResponse,
@@ -23,6 +23,7 @@ import {
     CompletionMessage,
     ChatCompletionRequestSettings
 } from "../services/oaiService";
+import ChatSettings from "../components/ChatSettings";
 
 interface ChatProps {
     sharedState: SharedState;
@@ -38,7 +39,7 @@ const Chat: FC<ChatProps> = ({ sharedState }): ReactElement => {
     const [processing, setProcessing] = useState<boolean>(false);
     const [openAiInfo, setOpenAiInfo] = useState<OpenAIConfigType>();
     const [completionMessages, setCompletionMessages] = useState<CompletionMessage[]>([]);
-
+    const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
 
     const processCompletions = async () => {
         setProcessing(true);
@@ -83,6 +84,23 @@ const Chat: FC<ChatProps> = ({ sharedState }): ReactElement => {
         }
     };
 
+    const openSettings = async () => {
+        // Check if info is set, else call the API
+        if (openAiInfo == null) {
+            try {
+                var info = await oaiService.getInfoAsync();
+                setOpenAiInfo(info);
+            } catch (error: any) {
+                sharedState.setErrors((prev: any) => {
+                    return [...prev, error.message];
+                });
+            }
+        }
+
+        // Toggle the drawer
+        setIsSettingsOpen(!isSettingsOpen);
+    };
+
     useEffect(() => {
         (async () => {
             try {
@@ -125,6 +143,16 @@ const Chat: FC<ChatProps> = ({ sharedState }): ReactElement => {
                         ")"
                         : ""
                         }.`} />
+                <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
+                    <Button
+                        variant="outlined"
+                        color="secondary"
+                        startIcon={<SettingsIcon />}
+                        onClick={openSettings}
+                    >
+                        Settings
+                    </Button>
+                </Box>
                 <Box hidden={sharedState.errors.length < 1}>
                     {sharedState.errors.map((e: any, i: number) => {
                         return (
@@ -253,6 +281,25 @@ const Chat: FC<ChatProps> = ({ sharedState }): ReactElement => {
                     </Button>
                     <pre>{JSON.stringify(completionMessages, null, 4)}</pre>
                 </Stack>
+                {openAiInfo != null ? (
+                    <ChatSettings
+                        open={isSettingsOpen}
+                        settings={openAiInfo.settings.chat}
+                        onClose={() => {
+                            setIsSettingsOpen(false);
+                        }}
+                        onSubmit={(settings: ChatCompletionRequestSettings) => {
+                            let toSubmit = openAiInfo as OpenAIConfigType;
+                            try {
+                                toSubmit.settings.chat = settings;
+                                setOpenAiInfo(toSubmit);
+                                setIsSettingsOpen(false);
+                            } catch (error) { }
+                        }}
+                    />
+                ) : (
+                    <></>
+                )}
             </Container>
 
         </Box>
