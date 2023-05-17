@@ -2,7 +2,7 @@
 
 <!-- PROJECT SHIELDS -->
 <!--
-*** I'm using markdown "reference style" links for readability.
+*** Using markdown "reference style" links for readability.
 *** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
 *** See the bottom of this document for the declaration of the reference variables
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
@@ -67,6 +67,7 @@
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#references">References</a></li>
   </ol>
 </details>
 
@@ -179,22 +180,22 @@ A sample environment file has been provided for you to use. You will need to upd
     PORT=8730    
     APP_NAME="YOUR_APP_NAME"
     APP_DESCRIPTION="YOUR_APP_DESCRIPTION"
-    APP_REPOSITORY_OPTIONAL="YOUR_APP_REPOSITORY_URL (Optional)"
-    APP_LOGO_OPTIONAL="YOUR_APP_LOGO_URL (Optional)"
-    APP_FAVICON_OPTIONAL="YOUR_APP_FAVICON_URL (Optional)"
+    APP_REPOSITORY_OPTIONAL="YOUR_APP_REPOSITORY_URL (Optional. If you remove this line, it defaults to this repository's url.)"
+    APP_LOGO_OPTIONAL="YOUR_APP_LOGO_URL (Optional. If you can remove this line, it defaults to the Microsoft logo.)"
+    APP_FAVICON_OPTIONAL="YOUR_APP_FAVICON_URL (Optional. You can remove this line, it defaults to the Microsoft favicon.)"
     LANGUAGE_KEY="YOUR_AZURE_LANGUAGE_KEY"
     LANGUAGE_REGION="YOUR_AZURE_LANGUAGE_REGION"
     LANGUAGE_ENDPOINT_URL="YOUR_AZURE_LANGUAGE_ENDPOINT_URL"
     SPEECH_KEY="YOUR_AZURE_SPEECH_KEY"
     SPEECH_REGION="YOUR_AZURE_SPEECH_REGION"
-    SPEECH_ENDPOINT_URL_OPTIONAL="YOUR_AZURE_SPEECH_ENDPOINT_URL (Optional)"
+    SPEECH_ENDPOINT_URL_OPTIONAL="YOUR_AZURE_SPEECH_ENDPOINT_URL (Optional. You can remove this line if you don't have a custom speech endpoint url.)"
     OPENAI_TYPE="Must be either openai or azure"
     OPENAI_KEY="YOUR_OPENAI_KEY"
     OPENAI_AZURE_KEY="YOUR_OPENAI_AZURE_KEY"
     OPENAI_AZURE_BASE_URL="[eg. https://[your-deployment-name].openai.azure.com/]"
     OPENAI_AZURE_API_VERSION_OPTIONAL="2023-03-15-preview"
-    OPENAI_AZURE_MODELS_TEXT="deployment name for text-davinci-3"
-    OPENAI_AZURE_MODELS_CHAT="deployment name for GPT-3.5(turbo) or GPT-4"
+    OPENAI_AZURE_MODELS_TEXT="YOUR_MODEL_DEPLOYMENT_NAME_FOR_text-davinci-003"
+    OPENAI_AZURE_MODELS_CHAT="YOUR_MODEL_DEPLOYMENT_NAME_FOR_gpt-35-turbo or GPT-4"
     ```
 
 
@@ -283,8 +284,9 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Add Support for Chat Completion
+- [X] Add Support for Chat Completion
 - [ ] Add Form Recognizer Use Cases
+
 
 See the [open issues](https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit/issues) for a full list of proposed features (and known issues).
 
@@ -345,9 +347,22 @@ Project Link: [https://github.com/rohit-lakhanpal/ai-hackathon-starter-kit](http
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* [Amazing work done by amulchapla](https://github.com/amulchapla)
-* [Prompt engineering](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/concepts/advanced-prompt-engineering?pivots=programming-language-chat-completions)
+* [Based on amazing work done by amulchapla](https://github.com/amulchapla)
+* [Prompt engineering samples from DSR](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/concepts/advanced-prompt-engineering?pivots=programming-language-chat-completions)
 * [This amazing ReadME template](https://github.com/othneildrew/Best-README-Template)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- REFERENCES -->
+## References
+
+* [Learn more about GPT, Azure OpenAI Service and Prompt Engineering (youtube)](https://aka.ms/ReactorSuperchargingWithAOAI)
+* [Prompt engineering techniques](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/concepts/advanced-prompt-engineering?pivots=programming-language-chat-completions)
+* [Apply for the Azure OpenAI Service](https://aka.ms/oaiapply)
+* [Models](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/concepts/models)
+* [Quotas and limits](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/quotas-limits)
+* [Data privacy with Azure OpenAI](https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy#can-a-customer-opt-out-of-the-logging-and-human-review-process)
 
 
 ```
