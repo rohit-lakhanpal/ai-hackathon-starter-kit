@@ -77,7 +77,7 @@
 ## About The Project
 
 <a href="http://aka.ms/ai-hackathon-starter-kit-video" target="_blank">
- <img src="https://img.youtube.com/vi/qgCQMrbXGQA/0.jpg" alt="Video walkthrough" width="100%" />
+  <img src="docs/img/video.png" alt="Video walkthrough" width="100%" />
 </a>
 
 Welcome to the AI Hackathon Starter Kit! This project has been created to make AI accessible and easy for everyone. Whether you are a beginner with no prior experience or an experienced developer, this starter kit is designed to help you incorporate AI into your apps quickly and easily.
