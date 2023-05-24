@@ -1,23 +1,21 @@
-## Installation
+# Installation
 
-The environment can provisioned using the Bicep templates inclulded with the project and executed in a number of ways including:ways such as:
+The environment can provisioned using the Bicep templates inclulded with the project and executed in a number of ways including:
 
-- [Azure CLI](#azure-cli)
-- [GitHub Actions](#github-actions)
-- [Azure Portal](#azure-portal)
-- [Azure DevOps](#azure-devops)
+      1. Azure CLI
+      2. GitHub Actions
+      3. Azure DevOps
+      4. Azure Portal
 
 We will provide examples of the first two methods in this document. Manual provisioning using the Azure CLI or continuous delivery via GitHub Actions.
 
 <br/>
 
-### Deploying the Bicep templates using the Azure CLI
+## Deploying the Bicep templates using the Azure CLI
 
-<br/>
+#### :wrench: CREATING THE RESOURCE GROUP ####
 
-#### CREATING THE RESOURCE GROUP
-
-Execute the `ai.bicep` file using the Azure CLI `az` command line tool. First, you would need to login to your Azure account:
+Before executing any of the following Bicep templates, you first need to login to your Azure account using the Azure CLI `az` command line tool:
 
 ```bash
 az login
@@ -33,7 +31,7 @@ Replace `<ResourceGroupName>` and `<Location>` with your preferred resource grou
 
 <br/>
 
-#### AI DEPENDENCIES
+#### :wrench: PROVISIONING THE AI DEPENDENCIES
 
 To deploy the required AI services, deploy the `ai.bicep` file with the `az deployment group create` command:
 
@@ -49,9 +47,9 @@ Please ensure that you have the Azure CLI installed and you're logged in to your
 
 <br/>
 
-#### WEB COMPONENTS
+#### :wrench: PROVISONING THE WEB INFRASTRUCTURE
 
-To deploy the required AI services, deploy the `web.bicep` file with the `az deployment group create` command:
+To deploy the required web infrastructure, deploy the `web.bicep` file with the `az deployment group create` command:
 
 ```bash
 az deployment group create --resource-group <ResourceGroupName> --template-file web.bicep
@@ -65,6 +63,6 @@ Please ensure that you have the Azure CLI installed and you're logged in to your
 
 <br/>
 
-### Deploying infastructure continuously using GitHub Actions
+## Deploying infastructure continuously using GitHub Actions
 
 Coming soon...    
