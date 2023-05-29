@@ -75,7 +75,10 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-<img src="docs/img/app.gif" alt="Web Application" height="200">
+
+<a href="http://aka.ms/ai-hackathon-starter-kit-video" target="_blank">
+  <img src="docs/img/video.png" alt="Video walkthrough" width="100%" />
+</a>
 
 Welcome to the AI Hackathon Starter Kit! This project has been created to make AI accessible and easy for everyone. Whether you are a beginner with no prior experience or an experienced developer, this starter kit is designed to help you incorporate AI into your apps quickly and easily.
 
@@ -91,6 +94,7 @@ The tool showcases how to work with the following use cases:
 - Speak (Text to Speech)
 - Natural Language Generation
 
+<img src="docs/img/app.gif" alt="Web Application" height="200">
 
 This kit removes the complexity of working with AI and allows you to focus on building your app. We have added placeholders for you to add your code and get started quickly. Search for the text "`NOTE TO DEVELOPER: YOUR_MAGIC_GOES_HERE`" to find the placeholders.
 
