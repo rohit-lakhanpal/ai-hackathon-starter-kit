@@ -188,18 +188,18 @@ A sample environment file has been provided for you to use. You will need to upd
     APP_LOGO_OPTIONAL="YOUR_APP_LOGO_URL (Optional. If you can remove this line, it defaults to the Microsoft logo.)"
     APP_FAVICON_OPTIONAL="YOUR_APP_FAVICON_URL (Optional. You can remove this line, it defaults to the Microsoft favicon.)"
     LANGUAGE_KEY="YOUR_AZURE_LANGUAGE_KEY"
-    LANGUAGE_REGION="YOUR_AZURE_LANGUAGE_REGION"
-    LANGUAGE_ENDPOINT_URL="YOUR_AZURE_LANGUAGE_ENDPOINT_URL"
+    LANGUAGE_REGION="[e.g. eastus]"
+    LANGUAGE_ENDPOINT_URL="[e.g. https://your-deployment-name.cognitiveservices.azure.com/]"
     SPEECH_KEY="YOUR_AZURE_SPEECH_KEY"
     SPEECH_REGION="YOUR_AZURE_SPEECH_REGION"
     SPEECH_ENDPOINT_URL_OPTIONAL="YOUR_AZURE_SPEECH_ENDPOINT_URL (Optional. You can remove this line if you don't have a custom speech endpoint url.)"
     OPENAI_TYPE="Must be either openai or azure"
     OPENAI_KEY="YOUR_OPENAI_KEY"
     OPENAI_AZURE_KEY="YOUR_OPENAI_AZURE_KEY"
-    OPENAI_AZURE_BASE_URL="[eg. https://[your-deployment-name].openai.azure.com/]"
+    OPENAI_AZURE_BASE_URL="[e.g. https://[your-deployment-name].openai.azure.com/]"
     OPENAI_AZURE_API_VERSION_OPTIONAL="2023-03-15-preview"
     OPENAI_AZURE_MODELS_TEXT="YOUR_MODEL_DEPLOYMENT_NAME_FOR_text-davinci-003"
-    OPENAI_AZURE_MODELS_CHAT="YOUR_MODEL_DEPLOYMENT_NAME_FOR_gpt-35-turbo or GPT-4"
+    OPENAI_AZURE_MODELS_CHAT="YOUR_MODEL_DEPLOYMENT_NAME_FOR_gpt-35-turbo_or_GPT-4"
     ```
 
 
