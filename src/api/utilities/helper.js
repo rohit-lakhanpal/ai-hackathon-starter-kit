@@ -32,4 +32,13 @@ module.exports = {
             return 0;
         });
     },
+    convertToPascalCase: (options = {}) => {
+        // Iterate through each key in options & convert _ to camelCase (eg max_tokens becomes maxTokens)
+        let newOptions = {};
+        for (let key in options) {
+            let newKey = key.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
+            newOptions[newKey] = options[key];
+        }
+        return newOptions;
+    }
 };

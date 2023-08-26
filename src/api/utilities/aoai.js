@@ -58,6 +58,9 @@ const getCompletionsAsync = async (prompt, options = {}) => {
     let client = getClient();
 
     try {
+        // Options need to be converted to PascalCase
+        options = helper.convertToPascalCase(options);
+
         let completion = await client.getCompletions(
             values.openAI.azure.models.text,
             prompt, { ...options }
@@ -82,6 +85,9 @@ const getChatCompletionsAsync = async (messages, options = {}) => {
     let client = getClient();
 
     try {
+        // Options need to be converted to PascalCase
+        options = helper.convertToPascalCase(options);
+        
         let completion = await client.getChatCompletions(
             values.openAI.azure.models.chat,
             messages, { ...options }
