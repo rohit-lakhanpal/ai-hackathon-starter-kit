@@ -27,13 +27,24 @@ const getCompletionsAsync = async (prompt, options = {}) => {
     let openai = getClient();
 
     try {
+        let model = 'text-davinci-003';
         let completion = await openai.completions.create({
             prompt,
-            model: 'text-davinci-003',
+            model,
             ...options
         });
 
-        return completion;
+        return {
+            request: {
+                prompt,
+                options,
+            },
+            response: {
+                completion,
+                type: values.openAI.type,                
+                model, 
+            }
+        };
     }
     catch (error) {
         throw new Error(error);
@@ -44,13 +55,28 @@ const getChatCompletionsAsync = async (messages, options = {}) => {
     let openai = getClient();
 
     try {
+        // NOTE: 
+        // This model will be replaced by "gpt-3.5-turbo-instruct" once it is available.
+        // See: https://platform.openai.com/docs/deprecations/2023-07-06-gpt-and-embeddings 
+
+        let model = 'gpt-3.5-turbo';
         let completion = await openai.chat.completions.create({
             messages,
-            model: 'gpt-3.5-turbo',
+            model,
             ...options
         });
 
-        return completion;
+        return  {
+            request: {
+                messages,
+                options,
+            },
+            response: {
+                completion,
+                type: values.openAI.type,                
+                model, 
+            }
+        };
     }
     catch (error) {
         throw new Error(error);

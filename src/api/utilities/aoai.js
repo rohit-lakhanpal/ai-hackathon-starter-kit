@@ -58,11 +58,21 @@ const getCompletionsAsync = async (prompt, options = {}) => {
     let client = getClient();
 
     try {
-        let result = await client.getCompletions(
+        let completion = await client.getCompletions(
             values.openAI.azure.models.text,
             prompt, { ...options }
         );
-        return result;
+        return {
+            request: {
+                prompt,
+                options,
+            },
+            response: {
+                completion,
+                type: values.openAI.type,                
+                model: values.openAI.azure.models.text, 
+            }
+        };
     } catch (error) {
         throw new Error(error);
     }
@@ -72,11 +82,21 @@ const getChatCompletionsAsync = async (messages, options = {}) => {
     let client = getClient();
 
     try {
-        let result = await client.getChatCompletions(
+        let completion = await client.getChatCompletions(
             values.openAI.azure.models.chat,
             messages, { ...options }
         );
-        return result;
+        return {
+            request: {
+                messages,
+                options,
+            },
+            response: {
+                completion,
+                type: values.openAI.type,                
+                model: values.openAI.azure.models.chat, 
+            }
+        };
     } catch (error) {
         throw new Error(error);
     }
