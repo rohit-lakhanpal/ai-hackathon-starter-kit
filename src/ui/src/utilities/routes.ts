@@ -5,7 +5,6 @@ import Speak from "../pages/Speak";
 import About from "../pages/About";
 import Completions from "../pages/Completions";
 import ChatCompletions from "../pages/ChatCompletions";
-import Chat from "../pages/Chat";
 import Error from "../pages/Error";
 
 // other
