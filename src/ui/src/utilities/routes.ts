@@ -3,7 +3,6 @@ import Transcribe from "../pages/Transcribe";
 import Analyse from "../pages/Analyse";
 import Speak from "../pages/Speak";
 import About from "../pages/About";
-import Complete from "../pages/Complete";
 import Completions from "../pages/Completions";
 
 import Chat from "../pages/Chat";
