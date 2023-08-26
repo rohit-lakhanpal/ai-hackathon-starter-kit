@@ -68,5 +68,5 @@ jobs:
         with:
           app-name: 'ai-hackathon-starter-kit-dev'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E0D8721F686942F1B066968215ED3F9F }}
+          publish-profile: ${{ secrets.AI_HACKATHON_STARTER_KIT_DEV_PUBLISHPROFILE }}
           package: .
