@@ -6,18 +6,22 @@ const oaiUtilities = require('../../utilities/oai');
 const aoaiUtilities = require('../../utilities/aoai');
 
 /* GET /api/status */
-router.get('/', async (req, res, next) => {  
-  let response = {status: '200OK'};
+router.get('/', async (req, res, next) => {
+  let response = { status: '200OK' };
   try {
+    // Set type
     response.openAI = {
       type: config.values.openAI.type,
     }
-    let models = config.values.openAI.type === 'azure'?
-        await aoaiUtilities.getModelsAsync():
-        await oaiUtilities.getModelsAsync();
+
+    // Add available models
+    let models = config.values.openAI.type === 'azure' ?
+      await aoaiUtilities.getModelsAsync() :
+      await oaiUtilities.getModelsAsync();
     response.openAI.availableModels = models;
 
-    if (config.values.openAI.type === 'azure') {       
+    // Add Azure configuration and validations
+    if (config.values.openAI.type === 'azure') {
       response.openAI.azure = {
         baseUrl: config.values.openAI.azure.baseUrl,
         apiVersion: config.values.openAI.azure.apiVersion,
@@ -29,11 +33,11 @@ router.get('/', async (req, res, next) => {
       }
     }
 
+    res.json(response);
   } catch (error) {
-    
+    res.status(400).send('There was an error fetching status.');
+    console.log(error);
   }
-
-  res.json(response);  
 });
 
 module.exports = router;
