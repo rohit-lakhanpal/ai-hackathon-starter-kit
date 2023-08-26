@@ -30,6 +30,7 @@ app.use(`${api}/speech/token`, require('./routes/speech/token'));
 app.use(`${api}/openai/completions`, require('./routes/openai/completions'));
 app.use(`${api}/openai/chat/completions`, require('./routes/openai/chat/completions'));
 app.use(`${api}/openai/models`, require('./routes/openai/models'));
+app.use(`${api}/oai/models`, require('./routes/oai/models'));
 
 
 // catch 404 and forward to error handler
