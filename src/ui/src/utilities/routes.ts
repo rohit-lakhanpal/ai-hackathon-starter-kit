@@ -4,7 +4,7 @@ import Analyse from "../pages/Analyse";
 import Speak from "../pages/Speak";
 import About from "../pages/About";
 import Completions from "../pages/Completions";
-
+import ChatCompletions from "../pages/ChatCompletions";
 import Chat from "../pages/Chat";
 import Error from "../pages/Error";
 
@@ -58,7 +58,7 @@ export const routes: Array<Route> = [
         title: 'Chat',
         path: '/chat',
         enabled: true,
-        component: Chat        
+        component: ChatCompletions        
     },
     {
         key: 'speak-route',
