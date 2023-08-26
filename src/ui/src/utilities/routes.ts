@@ -4,6 +4,8 @@ import Analyse from "../pages/Analyse";
 import Speak from "../pages/Speak";
 import About from "../pages/About";
 import Complete from "../pages/Complete";
+import Completions from "../pages/Completions";
+
 import Chat from "../pages/Chat";
 import Error from "../pages/Error";
 
@@ -44,13 +46,13 @@ export const routes: Array<Route> = [
         enabled: true,
         component: Analyse,
         exact: true
-    },    
+    },        
     {
-        key: 'complete-route',
+        key: 'completions-route',
         title: 'Complete',
         path: '/complete',
         enabled: true,
-        component: Complete
+        component: Completions
     },
     {
         key: 'chat-route',
