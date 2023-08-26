@@ -30,8 +30,29 @@ const getModelsAsync = async () => {
     }
 };
 
+const validateModelAsync = async () => {    
+    try {
+        let models = await getModelsAsync();
+
+        return {
+            completionModel: {
+                id: values.openAI.azure.models.text,
+                isValid: models.some((obj) => obj.id === values.openAI.azure.models.text)
+            },
+            chatCompletionModel: {
+                id: values.openAI.azure.models.chat,
+                isValid: models.some((obj) => obj.id === values.openAI.azure.models.chat)
+            }
+        };
+    }
+    catch (error) {
+        throw new Error(error);
+    }
+}
+
 const aoaiUtilities={
     getModelsAsync: getModelsAsync,
+    validateModelAsync: validateModelAsync
 }
 
 module.exports = aoaiUtilities;
