@@ -1,58 +1,92 @@
 // Desc: Azure OpenAI utilities
 const OpenAIClient = require("@azure/openai").OpenAIClient;
 const AzureKeyCredential = require("@azure/openai").AzureKeyCredential;
-const axios = require('axios');
-const helper = require('./helper');
+const axios = require("axios");
+const helper = require("./helper");
 const config = require("./config");
 const values = config.values;
 
 const getClient = () => {
-    return new OpenAIClient(values.openAI.azure.baseUrl, 
-        new AzureKeyCredential(values.openAI.azure.key));    
+    return new OpenAIClient(
+        values.openAI.azure.baseUrl,
+        new AzureKeyCredential(values.openAI.azure.key)
+    );
 };
 
-const getModelsAsync = async () => {        
+const getModelsAsync = async () => {
     try {
         let response = await axios({
-            method: 'get',
+            method: "get",
             maxBodyLength: Infinity,
             url: `${values.openAI.azure.baseUrl}/openai/models?api-version=${values.openAI.azure.apiVersionOptional}`,
-            headers: { 
-                'Content-Type': 'application/json', 
-                'Accept': 'application/json', 
-                'api-key': `${values.openAI.azure.key}`
-            }
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                "api-key": `${values.openAI.azure.key}`,
+            },
         });
-        return helper.filterProperties(response.data.data, ['id']);
-    }
-    catch (error) {
+        return helper.filterProperties(response.data.data, ["id"]);
+    } catch (error) {
         throw new Error(error);
     }
 };
 
-const validateModelAsync = async () => {    
+const validateModelAsync = async () => {
     try {
         let models = await getModelsAsync();
 
         return {
             completionModel: {
                 id: values.openAI.azure.models.text,
-                isValid: models.some((obj) => obj.id === values.openAI.azure.models.text)
+                isValid: models.some(
+                    (obj) => obj.id === values.openAI.azure.models.text
+                ),
             },
             chatCompletionModel: {
                 id: values.openAI.azure.models.chat,
-                isValid: models.some((obj) => obj.id === values.openAI.azure.models.chat)
-            }
+                isValid: models.some(
+                    (obj) => obj.id === values.openAI.azure.models.chat
+                ),
+            },
         };
-    }
-    catch (error) {
+    } catch (error) {
         throw new Error(error);
     }
-}
+};
 
-const aoaiUtilities={
+const getCompletionsAsync = async (prompt, options = {}) => {
+    let client = getClient();
+
+    try {
+        let result = await client.getCompletions(
+            values.openAI.azure.models.text,
+            prompt, { ...options }
+        );
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+const getChatCompletionsAsync = async (messages, options = {}) => {
+    let client = getClient();
+
+    try {
+        let result = await client.getChatCompletions(
+            values.openAI.azure.models.chat,
+            messages, { ...options }
+        );
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+const aoaiUtilities = {
     getModelsAsync: getModelsAsync,
-    validateModelAsync: validateModelAsync
-}
+    validateModelAsync: validateModelAsync,
+    getCompletionsAsync: getCompletionsAsync,
+    getChatCompletionsAsync: getChatCompletionsAsync,
+};
 
 module.exports = aoaiUtilities;

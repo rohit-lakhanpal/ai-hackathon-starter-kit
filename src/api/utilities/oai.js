@@ -23,9 +23,44 @@ const getModelsAsync = async () => {
     }
 };
 
+const getCompletionsAsync = async (prompt, options = {}) => {
+    let openai = getClient();
 
-const oaiUtilities={
-    getModelsAsync: getModelsAsync,  
+    try {
+        let completion = await openai.completions.create({
+            prompt,
+            model: 'text-davinci-003',
+            ...options
+        });
+
+        return completion;
+    }
+    catch (error) {
+        throw new Error(error);
+    }
+};
+
+const getChatCompletionsAsync = async (messages, options = {}) => {
+    let openai = getClient();
+
+    try {
+        let completion = await openai.chat.completions.create({
+            messages,
+            model: 'gpt-3.5-turbo',
+            ...options
+        });
+
+        return completion;
+    }
+    catch (error) {
+        throw new Error(error);
+    }
+};
+
+const oaiUtilities = {
+    getModelsAsync: getModelsAsync,
+    getCompletionsAsync: getCompletionsAsync,
+    getChatCompletionsAsync: getChatCompletionsAsync,
 }
 
 module.exports = oaiUtilities;

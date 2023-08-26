@@ -31,6 +31,8 @@ app.use(`${api}/openai/completions`, require('./routes/openai/completions'));
 app.use(`${api}/openai/chat/completions`, require('./routes/openai/chat/completions'));
 app.use(`${api}/openai/models`, require('./routes/openai/models'));
 app.use(`${api}/oai/models`, require('./routes/oai/models'));
+app.use(`${api}/oai/completions`, require('./routes/oai/completions'));
+app.use(`${api}/oai/chat/completions`, require('./routes/oai/chatCompletions'));
 
 
 // catch 404 and forward to error handler
