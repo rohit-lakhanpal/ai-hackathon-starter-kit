@@ -34,7 +34,7 @@ const config = {
             azure: {
                 key: process.env.OPENAI_AZURE_KEY,
                 baseUrl: process.env.OPENAI_AZURE_BASE_URL, // [eg. https://[your-deployment-name].openai.azure.com/]
-                apiVersionOptional: process.env.OPENAI_AZURE_API_VERSION_OPTIONAL, // [eg. 2022-12-01 or 2023-03-15-preview]
+                apiVersionOptional: process.env.OPENAI_AZURE_API_VERSION_OPTIONAL, // [eg. 2023-05-15 or 2023-06-01-preview]
                 models: {
                     text: process.env.OPENAI_AZURE_MODELS_TEXT, // [eg. deployment name for text-davinci-3]                   
                     chat: process.env.OPENAI_AZURE_MODELS_CHAT, // [eg. deployment name for GPT-3.5 or GPT-4]
@@ -116,11 +116,15 @@ const config = {
                 }
                 
                 if (!config.values.openAI.azure.apiVersionOptional) {
-                    config.values.openAI.azure.apiVersionOptional = "2023-03-15-preview";
-                } else {                    
-                    if (config.values.openAI.azure.apiVersionOptional !== "2023-03-15-preview") {
-                        errors.push(errorGenerator(`OpenAI Azure api version`, `OPENAI_AZURE_API_VERSION`, '2023-03-15-preview (Do not use 2022-12-01 as it does not allow the chat completions endpoint.)'));
+                    config.values.openAI.azure.apiVersionOptional = "2023-05-15";
+                } else {
+                    // Ensure that the api version is 2023-05-15, 2023-06-01-preview else throw error 
+                    if (config.values.openAI.azure.apiVersionOptional !== "2023-06-01-preview"
+                            && config.values.openAI.azure.apiVersionOptional !== "2023-05-15" 
+                            ) {
+                        errors.push(errorGenerator(`OpenAI Azure api version`, `OPENAI_AZURE_API_VERSION`, 'Acceptable versions are 2023-05-15 or 2023-06-01-preview'));
                     }
+                    
                 }
 
                 if (!config.values.openAI.azure.models.text) {
