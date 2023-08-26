@@ -36,13 +36,13 @@ const validateModelAsync = async () => {
         let models = await getModelsAsync();
 
         return {
-            completionModel: {
+            completionsModel: {
                 id: values.openAI.azure.models.text,
                 isValid: models.some(
                     (obj) => obj.id === values.openAI.azure.models.text
                 ),
             },
-            chatCompletionModel: {
+            chatCompletionsModel: {
                 id: values.openAI.azure.models.chat,
                 isValid: models.some(
                     (obj) => obj.id === values.openAI.azure.models.chat
