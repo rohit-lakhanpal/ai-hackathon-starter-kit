@@ -3,8 +3,8 @@ import Transcribe from "../pages/Transcribe";
 import Analyse from "../pages/Analyse";
 import Speak from "../pages/Speak";
 import About from "../pages/About";
-import Complete from "../pages/Complete";
-import Chat from "../pages/Chat";
+import Completions from "../pages/Completions";
+import ChatCompletions from "../pages/ChatCompletions";
 import Error from "../pages/Error";
 
 // other
@@ -44,20 +44,20 @@ export const routes: Array<Route> = [
         enabled: true,
         component: Analyse,
         exact: true
-    },    
+    },        
     {
-        key: 'complete-route',
+        key: 'completions-route',
         title: 'Complete',
         path: '/complete',
         enabled: true,
-        component: Complete
+        component: Completions
     },
     {
         key: 'chat-route',
         title: 'Chat',
         path: '/chat',
         enabled: true,
-        component: Chat        
+        component: ChatCompletions        
     },
     {
         key: 'speak-route',
