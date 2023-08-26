@@ -31,63 +31,23 @@ interface ChatCompletionsProps {
     sharedState: SharedState;
 }
 
-const ChatCompletions: FC<ChatCompletionsProps> = ({ sharedState }): ReactElement => {
+const ChatCompletions: FC<ChatCompletionsProps> = ({ sharedState }): ReactElement => {    
+    const [completionMessages, setCompletionMessages] = useState<CompletionMessage[]>([{
+        role: "system",
+        content: "You are an AI assistant that helps people find information."
+    }]);
     const [completionSettings, setCompletionSettings] = useState<ChatCompletionRequestSettings>({
         max_tokens: 1000,
         temperature: 0.5,
         top_p: 1,
         n: 1,
     });
-
     const [temperature, setTemperature] = useState<number>(completionSettings.temperature);
-    const handleTemperatureChange = (event: any, newValue: number | number[]) => {
-        setTemperature(newValue as number);
-        setCompletionSettings((prev) => {
-            return {
-                ...prev,
-                temperature: newValue as number,
-            };
-        });
-    };
-
     const [topP, setTopP] = useState<number>(completionSettings.top_p);
-    const handleTopPChange = (event: any, newValue: number | number[]) => {
-        setTopP(newValue as number);
-        setCompletionSettings((prev) => {
-            return {
-                ...prev,
-                top_p: newValue as number,
-            };
-        }
-        );
-    };
-
     const [maxTokens, setMaxTokens] = useState<number>(completionSettings.max_tokens);
-    const handleMaxTokensChange = (event: any, newValue: number | number[]) => {
-        setMaxTokens(newValue as number);
-        setCompletionSettings((prev) => {
-            return {
-                ...prev,
-                max_tokens: newValue as number,
-            };
-        }
-        );
-    };
-
     const [n] = useState<number>(completionSettings.n);
     const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
-
-
     const [processing, setProcessing] = useState<boolean>(false);
-
-    const [completionMessages, setCompletionMessages] = useState<CompletionMessage[]>([{
-        role: "system",
-        content: "You are an AI assistant that helps people find information."
-    }]);
-
-
-    const resetCompletions = () => { };
-
 
     const processCompletions = async () => {
         setProcessing(true);
@@ -125,6 +85,38 @@ const ChatCompletions: FC<ChatCompletionsProps> = ({ sharedState }): ReactElemen
         }
     };
 
+    const handleTemperatureChange = (event: any, newValue: number | number[]) => {
+        setTemperature(newValue as number);
+        setCompletionSettings((prev) => {
+            return {
+                ...prev,
+                temperature: newValue as number,
+            };
+        });
+    };
+    
+    const handleTopPChange = (event: any, newValue: number | number[]) => {
+        setTopP(newValue as number);
+        setCompletionSettings((prev) => {
+            return {
+                ...prev,
+                top_p: newValue as number,
+            };
+        }
+        );
+    };
+
+    const handleMaxTokensChange = (event: any, newValue: number | number[]) => {
+        setMaxTokens(newValue as number);
+        setCompletionSettings((prev) => {
+            return {
+                ...prev,
+                max_tokens: newValue as number,
+            };
+        }
+        );
+    };
+    
 
     return (
         <Box

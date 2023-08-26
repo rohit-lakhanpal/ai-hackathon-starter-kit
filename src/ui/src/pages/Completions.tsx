@@ -44,56 +44,24 @@ interface Interation {
 }
 
 const Completions: FC<CompletionsProps> = ({ sharedState }): ReactElement => {
+
+    const [content, setContent] = useState<string>("");
+
     const [completionSettings, setCompletionSettings] = useState<TextCompletionRequestSettings>({
         max_tokens: 1000,
-        temperature: 0.7,
+        temperature: 0.5,
         top_p: 1,
         n: 1,
     });
-
     const [temperature, setTemperature] = useState<number>(completionSettings.temperature);
-    const handleTemperatureChange = (event: any, newValue: number | number[]) => {
-        setTemperature(newValue as number);
-        setCompletionSettings((prev) => {
-            return {
-                ...prev,
-                temperature: newValue as number,
-            };
-        });
-    };
-
     const [topP, setTopP] = useState<number>(completionSettings.top_p);
-    const handleTopPChange = (event: any, newValue: number | number[]) => {
-        setTopP(newValue as number);
-        setCompletionSettings((prev) => {
-            return {
-                ...prev,
-                top_p: newValue as number,
-            };
-        }
-        );
-    };
-
     const [maxTokens, setMaxTokens] = useState<number>(completionSettings.max_tokens);
-    const handleMaxTokensChange = (event: any, newValue: number | number[]) => {
-        setMaxTokens(newValue as number);
-        setCompletionSettings((prev) => {
-            return {
-                ...prev,
-                max_tokens: newValue as number,
-            };
-        }
-        );
-    };
-
     const [n] = useState<number>(completionSettings.n);
 
-
     const [interactions, setInteractions] = useState<Interation[]>([]);
-    const [selectedInteraction, setSelectedInteraction] =
-        useState<Interation | null>(null);
+    const [selectedInteraction, setSelectedInteraction] = useState<Interation | null>(null);
+
     const [processing, setProcessing] = useState<boolean>(false);
-    const [content, setContent] = useState<string>("");
     const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
 
     const processCompletions = async () => {
@@ -126,16 +94,46 @@ const Completions: FC<CompletionsProps> = ({ sharedState }): ReactElement => {
 
     };
 
+    const handleTemperatureChange = (event: any, newValue: number | number[]) => {
+        setTemperature(newValue as number);
+        setCompletionSettings((prev) => {
+            return {
+                ...prev,
+                temperature: newValue as number,
+            };
+        });
+    };
+
+    const handleTopPChange = (event: any, newValue: number | number[]) => {
+        setTopP(newValue as number);
+        setCompletionSettings((prev) => {
+            return {
+                ...prev,
+                top_p: newValue as number,
+            };
+        }
+        );
+    };
+
+
+    const handleMaxTokensChange = (event: any, newValue: number | number[]) => {
+        setMaxTokens(newValue as number);
+        setCompletionSettings((prev) => {
+            return {
+                ...prev,
+                max_tokens: newValue as number,
+            };
+        }
+        );
+    };
+
+
     const resetCompletions = async () => {
         setProcessing(false);
         setContent("");
         setInteractions([]);
         setSelectedInteraction(null);
     };
-
-    useEffect(() => {
-        // getStatus();
-    }, []);
 
     return (
         <Box
@@ -298,7 +296,7 @@ const Completions: FC<CompletionsProps> = ({ sharedState }): ReactElement => {
                                                 style={{
                                                     whiteSpace: "pre-wrap",
                                                 }}
-                                                >
+                                            >
                                                 {choice.text}</Typography>
                                             <Button
                                                 style={{
