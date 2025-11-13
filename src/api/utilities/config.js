@@ -116,16 +116,9 @@ const config = {
                 }
                 
                 if (!config.values.openAI.azure.apiVersionOptional) {
-                    config.values.openAI.azure.apiVersionOptional = "2023-05-15";
-                } else {
-                    // Ensure that the api version is 2023-05-15, 2023-06-01-preview else throw error 
-                    if (config.values.openAI.azure.apiVersionOptional !== "2023-06-01-preview"
-                            && config.values.openAI.azure.apiVersionOptional !== "2023-05-15" 
-                            ) {
-                        errors.push(errorGenerator(`OpenAI Azure api version`, `OPENAI_AZURE_API_VERSION`, 'Acceptable versions are 2023-05-15 or 2023-06-01-preview'));
-                    }
-                    
+                    config.values.openAI.azure.apiVersionOptional = "2024-10-21";
                 }
+                // Note: API version validation removed to allow newer versions
 
                 if (!config.values.openAI.azure.models.text) {
                     errors.push(errorGenerator(`OpenAI Azure text model`, `OPENAI_AZURE_MODELS_TEXT`, 'deployment name for text-davinci-3'));

@@ -1,16 +1,17 @@
 // Desc: Azure OpenAI utilities
-const OpenAIClient = require("@azure/openai").OpenAIClient;
-const AzureKeyCredential = require("@azure/openai").AzureKeyCredential;
+const { AzureOpenAI } = require("@azure/openai");
+const { AzureKeyCredential } = require("@azure/core-auth");
 const axios = require("axios");
 const helper = require("./helper");
 const config = require("./config");
 const values = config.values;
 
 const getClient = () => {
-    return new OpenAIClient(
-        values.openAI.azure.baseUrl,
-        new AzureKeyCredential(values.openAI.azure.key)
-    );
+    return new AzureOpenAI({
+        endpoint: values.openAI.azure.baseUrl,
+        apiKey: values.openAI.azure.key,
+        apiVersion: values.openAI.azure.apiVersionOptional || "2024-10-21",
+    });
 };
 
 const getModelsAsync = async () => {
@@ -18,7 +19,7 @@ const getModelsAsync = async () => {
         let response = await axios({
             method: "get",
             maxBodyLength: Infinity,
-            url: `${values.openAI.azure.baseUrl}/openai/models?api-version=${values.openAI.azure.apiVersionOptional}`,
+            url: `${values.openAI.azure.baseUrl}/openai/models?api-version=${values.openAI.azure.apiVersionOptional || "2024-10-21"}`,
             headers: {
                 "Content-Type": "application/json",
                 Accept: "application/json",
@@ -58,13 +59,24 @@ const getCompletionsAsync = async (prompt, options = {}) => {
     let client = getClient();
 
     try {
-        // Options need to be converted to PascalCase
-        options = helper.convertToPascalCase(options);
+        // Options need to be converted to camelCase for new SDK
+        const apiOptions = {
+            prompt: [prompt],
+            maxTokens: options.maxTokens || options.max_tokens,
+            temperature: options.temperature,
+            topP: options.topP || options.top_p,
+            n: options.n,
+            frequencyPenalty: options.frequencyPenalty || options.frequency_penalty,
+            presencePenalty: options.presencePenalty || options.presence_penalty,
+            stop: options.stop,
+            ...options
+        };
 
-        let completion = await client.getCompletions(
-            values.openAI.azure.models.text,
-            prompt, { ...options }
-        );
+        let completion = await client.completions.create({
+            model: values.openAI.azure.models.text,
+            ...apiOptions
+        });
+        
         return {
             request: {
                 prompt,
@@ -85,13 +97,24 @@ const getChatCompletionsAsync = async (messages, options = {}) => {
     let client = getClient();
 
     try {
-        // Options need to be converted to PascalCase
-        options = helper.convertToPascalCase(options);
+        // Options converted to camelCase for new SDK
+        const apiOptions = {
+            messages,
+            maxTokens: options.maxTokens || options.max_tokens,
+            temperature: options.temperature,
+            topP: options.topP || options.top_p,
+            n: options.n,
+            frequencyPenalty: options.frequencyPenalty || options.frequency_penalty,
+            presencePenalty: options.presencePenalty || options.presence_penalty,
+            stop: options.stop,
+            ...options
+        };
         
-        let completion = await client.getChatCompletions(
-            values.openAI.azure.models.chat,
-            messages, { ...options }
-        );
+        let completion = await client.chat.completions.create({
+            model: values.openAI.azure.models.chat,
+            ...apiOptions
+        });
+        
         return {
             request: {
                 messages,

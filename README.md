@@ -162,7 +162,7 @@ To learn more about setting up your cloud resources, please visit see [cloud-set
     ```sh
     node -v
     ```
-    > Please validate that the version is 18.15 or higher.
+    > Please validate that the version is 20.x or higher (Node.js 20 LTS recommended).
 1. [Npm](https://www.npmjs.com/get-npm): Check if you have npm installed by running the following command in your terminal:
     ```sh
     npm -v
@@ -197,9 +197,9 @@ A sample environment file has been provided for you to use. You will need to upd
     OPENAI_KEY="YOUR_OPENAI_KEY"
     OPENAI_AZURE_KEY="YOUR_OPENAI_AZURE_KEY"
     OPENAI_AZURE_BASE_URL="[e.g. https://[your-deployment-name].openai.azure.com/]"
-    OPENAI_AZURE_API_VERSION_OPTIONAL="2023-03-15-preview"
-    OPENAI_AZURE_MODELS_TEXT="YOUR_MODEL_DEPLOYMENT_NAME_FOR_text-davinci-003"
-    OPENAI_AZURE_MODELS_CHAT="YOUR_MODEL_DEPLOYMENT_NAME_FOR_gpt-35-turbo_or_GPT-4"
+    OPENAI_AZURE_API_VERSION_OPTIONAL="2024-10-21"
+    OPENAI_AZURE_MODELS_TEXT="YOUR_MODEL_DEPLOYMENT_NAME_FOR_text-davinci-003_or_gpt-35-turbo-instruct"
+    OPENAI_AZURE_MODELS_CHAT="YOUR_MODEL_DEPLOYMENT_NAME_FOR_gpt-35-turbo_gpt-4_gpt-4o_or_GPT-4"
     ```
 
 
