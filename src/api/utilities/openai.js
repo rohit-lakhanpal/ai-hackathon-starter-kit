@@ -1,16 +1,16 @@
 const config = require("./config");
-const { Configuration, OpenAIApi } = require("openai");
+const OpenAI = require("openai");
 
 const settings = {
     model: {
         text: {
-            name: "text-davinci-003",
+            name: "gpt-3.5-turbo-instruct",
             stop: "",
             stream: false,
             logprobs: null,
         },
         chat: {
-            name: "gpt-3.5-turbo-0301",
+            name: "gpt-3.5-turbo",
             stop: ["<|im_end|>"],
         },
     },
@@ -26,27 +26,26 @@ const settings = {
 };
 
 const getOpenAi = (type) => {
-    const oaiConfiguration = new Configuration({
-        apiKey: config.values.openAI.key,
-    });
-
-    const aoaiConfiguration = new Configuration({
-        apiKey: config.values.openAI.azure.key,
-        basePath: `${config.values.openAI.azure.baseUrl}openai/deployments/${type && type === "chat"
-                ? config.values.openAI.azure.models.chat
-                : config.values.openAI.azure.models.text
+    if (config.values.openAI.type === "azure") {
+        return new OpenAI({
+            apiKey: config.values.openAI.azure.key,
+            baseURL: `${config.values.openAI.azure.baseUrl}openai/deployments/${
+                type && type === "chat"
+                    ? config.values.openAI.azure.models.chat
+                    : config.values.openAI.azure.models.text
             }`,
-        baseOptions: {
-            headers: { "api-key": config.values.openAI.azure.key },
-            params: {
-                "api-version": config.values.openAI.azure.apiVersionOptional,
+            defaultQuery: {
+                "api-version": config.values.openAI.azure.apiVersionOptional || "2024-10-21",
             },
-        },
-    });
-
-    return config.values.openAI.type === "azure"
-        ? new OpenAIApi(aoaiConfiguration)
-        : new OpenAIApi(oaiConfiguration);
+            defaultHeaders: {
+                "api-key": config.values.openAI.azure.key,
+            },
+        });
+    } else {
+        return new OpenAI({
+            apiKey: config.values.openAI.key,
+        });
+    }
 };
 
 const getBaseParams = (options) => {
@@ -58,11 +57,9 @@ const getBaseParams = (options) => {
         prompt: options?.prompt,
         messages: options?.messages,
         max_tokens: options?.max_tokens || settings.params.max_tokens,
-        temperature: options?.temperature || settings.params.temperature,
-        top_p: options?.top_p || settings.params.top_p,
+        temperature: options?.temperature !== undefined ? options.temperature : settings.params.temperature,
+        top_p: options?.top_p !== undefined ? options.top_p : settings.params.top_p,
         n: options?.n || settings.params.n,
-        //stream: options?.stream || settings.model.text.stream,
-        //logprobs: options?.logprobs || settings.model.text.logprobs,
     };
 };
 
@@ -75,9 +72,13 @@ const getParamsByType = (type, options = {}) => {
                 ? config.values.openAI.azure.models.chat
                 : settings.model.chat.name;
         params.frequency_penalty =
-            options?.frequency_penalty || settings.params.frequency_penalty;
+            options?.frequency_penalty !== undefined
+                ? options.frequency_penalty
+                : settings.params.frequency_penalty;
         params.presence_penalty =
-            options?.presence_penalty || settings.params.presence_penalty;
+            options?.presence_penalty !== undefined
+                ? options.presence_penalty
+                : settings.params.presence_penalty;
     } else {
         params.stream = settings.model.text.stream;
     }
@@ -89,14 +90,12 @@ const getCompletions = async (prompt, options = {}) => {
 
     try {
         const openai = getOpenAi();
-        //const models = config.values.openAI.type !== 'azure'? await openai.listModels(): null;
-        const response = await openai.createCompletion(params);
+        const response = await openai.completions.create(params);
 
         return {
-            data: response.data,
+            data: response,
             settings: params,
             type: config.values.openAI.type,
-            //models: models?.data?.data, // not needed. just for testing
         };
     } catch (error) {
         throw new Error(error);
@@ -108,18 +107,15 @@ const getChatCompletions = async (messages, options = {}) => {
     try {
         const openai = getOpenAi("chat");
 
-        const response = await openai.createChatCompletion(params);
+        const response = await openai.chat.completions.create(params);
 
         return {
-            data: response.data,
+            data: response,
             settings: params,
             type: config.values.openAI.type,
         };
     } catch (error) {
-        if (
-            error.response?.data?.error !== null &&
-            error.response?.data?.error !== undefined
-        ) {
+        if (error.response?.data?.error) {
             console.log(error.response.data.error);
             return {
                 error: error.response.data.error,
